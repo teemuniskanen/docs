@@ -314,14 +314,20 @@ git clone https://github.com/ebmeds/ebmeds-docker.git
 <p>If you don&#39;t already have it, you need a Duodecim-supplied username and password to be able to download the EBMeDS Docker images, which reside in a private repository at <code>quay.io</code>. The username is in the form <code>duodecim+yourname</code>.</p>
 <h3 id='login-to-quay-io-and-pull-the-required-images'>Login to quay.io and pull the required images</h3>
 <p>The built Docker images are stored in a repository on quay.io. Vendor organizations are provided with a login username and password. Developers with access to the EBMeDS Github repos can build the images locally.</p>
-<h3 id='pull-the-docker-images'>Pull the Docker images</h3>
-<p>You need the proper Docker images downloaded (&quot;pulled&quot;) onto your server before running them. This is true for single-machine servers and for each node in larger clusters.</p>
-<pre class="highlight shell"><code><span class="c"># Go to the downloaded ebmeds-docker repository</span>
+<h3 id='pull-the-docker-images'>Pull the Docker images</h3><pre class="highlight shell"><code><span class="c"># Go to the downloaded ebmeds-docker repository</span>
 <span class="nb">cd</span> /path/to/ebmeds-docker
 
-<span class="c"># Run script that downloads the correct docker images and tags them</span>
+<span class="c"># Run script that downloads the latest stable version of the images</span>
 ./get-images.sh
+
+<span class="c"># OR if one wishes to use e.g. the latest unstable version</span>
+./get-images.sh dev
+
+<span class="c"># OR if one wishes to use a specific old version (not recommended)</span>
+./get-images.sh 2.0.1
 </code></pre>
+<p>You need the proper Docker images downloaded (&quot;pulled&quot;) onto your server before running them. This is true for single-machine servers and for each node in larger clusters.</p>
+
 <p>The <code>get-images.sh</code> script will ask for the username/password of the EBMeDS Docker registry located at <code>quay.io</code>. These credentials are supplied by Duodecim. It will then pull the appropriate docker images and tag them with the following names:</p>
 
 <ul>
