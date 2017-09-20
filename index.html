@@ -219,6 +219,26 @@
             <a href="#introduction" class="toc-h1 toc-link" data-title="Introduction">Introduction</a>
           </li>
           <li>
+            <a href="#installation" class="toc-h1 toc-link" data-title="Installation">Installation</a>
+              <ul class="toc-list-h2">
+                  <li>
+                    <a href="#install-prerequisites" class="toc-h2 toc-link" data-title="Installation">Install prerequisites</a>
+                  </li>
+                  <li>
+                    <a href="#get-a-docker-registry-username-from-duodecim" class="toc-h2 toc-link" data-title="Installation">Get a Docker registry username from Duodecim</a>
+                  </li>
+                  <li>
+                    <a href="#deployment" class="toc-h2 toc-link" data-title="Installation">Deployment</a>
+                  </li>
+                  <li>
+                    <a href="#configuration" class="toc-h2 toc-link" data-title="Installation">Configuration</a>
+                  </li>
+                  <li>
+                    <a href="#verifying-the-installation" class="toc-h2 toc-link" data-title="Installation">Verifying the installation</a>
+                  </li>
+              </ul>
+          </li>
+          <li>
             <a href="#components" class="toc-h1 toc-link" data-title="Components">Components</a>
               <ul class="toc-list-h2">
                   <li>
@@ -265,6 +285,160 @@
       <div class="content">
         <h1 id='introduction'>Introduction</h1>
 <p>EBMeDS is a blablabla.</p>
+<h1 id='installation'>Installation</h1>
+<p>The main steps to installing EBMeDS 2.0 are the following:</p>
+
+<ul>
+<li>Install prerequisites</li>
+<li>Get a Docker registry username from Duodecim</li>
+<li>Pull the Docker images</li>
+<li>Configure the individual Docker images</li>
+<li>Configure the Docker Swarm</li>
+<li>Start up the Swarm</li>
+</ul>
+
+<p>These steps are given in more detail below.</p>
+<h2 id='install-prerequisites'>Install prerequisites</h2>
+<p>EBMeDS 2.x only requires Docker. Docker runs on Linux, Windows and Mac, but Linux is recommended, since Docker runs Linux internally and thus running it on other platforms incurs a small performance hit. Note that Docker supports running Windows internally on newer versions of Windows Server, but this is not supported by EBMeDS.</p>
+<h3 id='install-docker'>Install Docker</h3>
+<p>The installation instructions for Docker itself can be found on e.g. <a href="https://www.docker.com">Docker&#39;s site</a>. We support version 1.12+.</p>
+<h3 id='install-node-js-optional'>Install Node.js (optional)</h3>
+<p>You will need Node.js to run the <code>npm [...]</code> commands below. You can also run docker commands manually, removing the need for Node. The commands are defined in the file <code>package.json</code>.</p>
+<h3 id='download-ebmeds-docker-repository'>Download ebmeds-docker repository</h3>
+<p>Download the zip file from <a href="https://github.com/ebmeds/ebmeds-docker">Github</a> (the &quot;Clone or download&quot; button) or if you have Git installed, run the <code>git clone</code> command.</p>
+<pre class="highlight shell"><code><span class="c"># Get a copy of the EBMeDS Docker configuration</span>
+git clone https://github.com/ebmeds/ebmeds-docker.git
+</code></pre>
+<p>This repository does not contain the Docker images themselves, only startup scripts and configuration files. It also contains a sample <code>docker-compose.yml</code> file to get a Docker Swarm up and running with minimal effort.</p>
+<h2 id='get-a-docker-registry-username-from-duodecim'>Get a Docker registry username from Duodecim</h2>
+<p>If you don&#39;t already have it, you need a Duodecim-supplied username and password to be able to download the EBMeDS Docker images, which reside in a private repository at <code>quay.io</code>. The username is in the form <code>duodecim+yourname</code>.</p>
+<h3 id='login-to-quay-io-and-pull-the-required-images'>Login to quay.io and pull the required images</h3>
+<p>The built Docker images are stored in a repository on quay.io. Vendor organizations are provided with a login username and password. Developers with access to the EBMeDS Github repos can build the images locally.</p>
+<h3 id='pull-the-docker-images'>Pull the Docker images</h3>
+<p>You need the proper Docker images downloaded (&quot;pulled&quot;) onto your server before running them. This is true for single-machine servers and for each node in larger clusters.</p>
+<pre class="highlight shell"><code><span class="c"># Go to the downloaded ebmeds-docker repository</span>
+<span class="nb">cd</span> /path/to/ebmeds-docker
+
+<span class="c"># Run script that downloads the correct docker images and tags them</span>
+./get-images.sh
+</code></pre>
+<p>The <code>get-images.sh</code> script will ask for the username/password of the EBMeDS Docker registry located at <code>quay.io</code>. These credentials are supplied by Duodecim. It will then pull the appropriate docker images and tag them with the following names:</p>
+
+<ul>
+<li>engine</li>
+<li>api-gateway</li>
+<li>auth</li>
+<li>coaching</li>
+<li>elastichsearch <em>(vanilla)</em></li>
+<li>kibana <em>(vanilla)</em></li>
+<li>logstash <em>(vanilla)</em></li>
+</ul>
+
+<p>The last three images are the vanilla ELK stack, the rest are custom images.</p>
+<h2 id='deployment'>Deployment</h2><h3 id='docker-1-13'>Docker 1.13+</h3><pre class="highlight shell"><code><span class="c"># In the ebmeds-docker root directory:</span>
+npm run docker:init    <span class="c"># init Docker Swarm if not already running.</span>
+npm run docker:start
+
+<span class="c"># to stop</span>
+npm run docker:stop
+
+<span class="c"># and to restart:</span>
+npm run docker:restart  <span class="c"># same as stop + start</span>
+
+<span class="c"># to stop the entire Swarm</span>
+npm run docker:deinit   <span class="c"># not needed in most cases</span>
+</code></pre>
+<p>Assuming that the Docker images are available on the machine, there are a bunch of NPM scripts in <code>ebmeds-docker</code> that can start and stop a simple Docker Swarm configuration. <code>docker:init</code> starts up a Docker Swarm with one member: the local machine. It is also the master of the swarm. The command outputs an ID number that other machines can use to join the swarm, for multi-node cluster support. See the Docker documentation for more details on this. The <code>docker:start</code> and <code>docker:stop</code> commands start and stop the containers themselves. They are configured in <code>docker-compose.yml</code>.</p>
+<h3 id='docker-1-12'>Docker 1.12</h3><pre class="highlight shell"><code><span class="c"># Example of how to start a service manually</span>
+docker service create <span class="se">\</span>
+  --name api-gateway <span class="se">\</span>
+  -e <span class="nv">LISTEN_PORT</span><span class="o">=</span>3001 <span class="se">\</span>
+  -e <span class="nv">ENGINE_URL</span><span class="o">=</span>http://engine:3002/dss.asp?mode<span class="o">=</span><span class="nb">test</span> <span class="se">\</span>
+  --network ebmedsnet <span class="se">\</span>
+  --publish 3001:3001 <span class="se">\</span>
+  --replicas<span class="o">=</span>3 <span class="se">\</span>
+  --update-delay 10s <span class="se">\</span>
+  --update-parallelism 1 <span class="se">\</span>
+  api-gateway
+</code></pre>
+<p>The oldest supported version of Docker does not have support for Docker Compose files when used together with Docker Swarm. Therefore the command <code>npm run docker:start</code> will not work, and the <code>docker-compose.yml</code> file must be transformed into e.g. shell scripts that set up the services manually. For example, starting the <code>api-gateway</code> service manually (see the example) is a matter of setting environment variables, publishing a port, setting the number of replicas and optionally setting some update settings for Docker&#39;s rolling updates.</p>
+
+<p>Before this the swarm must be initialized and the network ebmedsnet created (in this example). Also note that the environment variables used in this example are the ones found in <code>api-gateway/config.env</code>.</p>
+<h2 id='configuration'>Configuration</h2><h3 id='environment-variables'>Environment variables</h3>
+<p>All configuration of the EBMeDS services (except the ELK stack) is done through environment variables. These are defined in the <code>ebmeds-docker</code> directory at <code>&lt;image-name&gt;/config.env</code>, i.e. each container is configured separately. The <code>.env</code> files contain comments describing the different options.</p>
+<h3 id='default-ports'>Default ports</h3>
+<p>The containers inside the Swarm are configured to listen to the following ports per default:</p>
+
+<ul>
+<li>api-gateway: 3001</li>
+<li>engine: 3002</li>
+<li>coaching: 3003</li>
+<li>elasticsearch: 9200 (REST API), 9300 (node communication in clusters)</li>
+<li>logstash: 5000 (TCP input)</li>
+<li>kibana: 5601</li>
+</ul>
+
+<aside class="notice">
+The above ports are not accessible outside of the swarm, except for <code>api-gateway</code> at port 3001 and <code>kibana</code> at port 5601. Port 3001 should therefore be open for general EBMeDS usage (see #Usage) and port 5601 is for log data analysis using the web UI in Kibana, which should be accessible only by trusted sources.
+</aside>
+<h3 id='file-system-access'>File system access</h3>
+<p>Docker containers cannot per default persist data to disk, i.e. all changes to the container file system are lost when the container is shut down. Therefore, to be able to save data between restarts, the host system running Docker must mount its own directories on top of the file system inside of Docker, to &quot;catch&quot; the saved data. The table below lists the folders that are configured to be mounted onto various Docker containers ($ROOT is the path to the <code>ebmeds-docker</code> project):</p>
+
+<table><thead>
+<tr>
+<th>Default host directory (configurable)</th>
+<th>Internal Docker directory</th>
+<th>Description</th>
+</tr>
+</thead><tbody>
+<tr>
+<td>$ROOT/elasticsearch/data</td>
+<td>/usr/share/elasticsearch/data</td>
+<td>The place where the Elasticsearch DB data lives (may get very large)</td>
+</tr>
+<tr>
+<td>$ROOT/logstash/pipeline</td>
+<td>/usr/share/logstash/pipeline</td>
+<td>How Logstash should process the data flowing through it</td>
+</tr>
+<tr>
+<td>$ROOT/logstash/queue</td>
+<td>/usr/share/logstash/data/queue</td>
+<td>Instead of storing the input queue in memory, persist it to disk to avoid data loss</td>
+</tr>
+<tr>
+<td>$ROOT/logstash/config</td>
+<td>/usr/share/logstash/config</td>
+<td>General configuration for the Logstash server process (usually no need to edit this)</td>
+</tr>
+<tr>
+<td>$ROOT/kibana/config/</td>
+<td>/usr/share/kibana/config</td>
+<td>General configuration for the Kibana server process (usually no need to edit this)</td>
+</tr>
+</tbody></table>
+
+<p>Note that the permissions must be set correctly for the host folders: the UID and GID should match the UID and GID that the user inside Docker has (which per default is 1000/1000). SELinux labels can also be used to avoid getting permission errors. Permissions on Windows/OSX will behave differently.</p>
+
+<aside class="notice">
+Also note that the Docker daemon itself will use the file system to store pulled images internally. These images are not removed by default when new versions are pulled, to support roll-backs of updates that are not working etc. The system administrator should keep in mind that the images will, in time, take up a lot of disk space, and steps should be taken to remove unused Docker images.
+</aside>
+<h3 id='advanced-deployment'>Advanced deployment</h3>
+<p>There are many advanced features of Docker that can be used to make the service more failsafe. This includes backups, monitoring, automatic node failure recovery etc. These advanced features should be implemented by a competent DevOps professional and is not covered in this documentation.</p>
+<h2 id='verifying-the-installation'>Verifying the installation</h2>
+<p>To see that the installation is succesful, perform the checklist below. $HOST is the hostname of the server running the Swarm. It may also be localhost:</p>
+
+<ul>
+<li>Make a HTTP GET to $HOST:3001/status, you should receive the reply &quot;OK&quot;.</li>
+<li>Make a HTTP POST to $HOST:3001/xml, with the payload of an EBMeDS XML request. You should receive an XML response.</li>
+<li>Open up Kibana at $HOST:5601 and add the indexes <code>logstash</code> and <code>engine</code>, if not already added.
+
+<ul>
+<li>In the &quot;Discover&quot; tab, check the <code>logstash</code> index to see that logging from the various containers is working.</li>
+<li>In the &quot;Discover&quot; tab, check the <code>engine</code> index to see that logging of request/response pairs is working (this kind of logging can be turned off).</li>
+</ul></li>
+<li>On the host&#39;s filesystem, check that <code>$ROOT/elasticsearch/data</code> and <code>$ROOT/logstash/queue</code> (or what you have configured them to be) are being populated with files. If not, the folder mounts are not working, and any data saved to the Elasticsearch database will disappear when the <code>elasticsearch</code> container is stopped.</li>
+</ul>
 <h1 id='components'>Components</h1>
 <p><img src="images/EBMeDS-architecture.png" alt="EBMeDS architecture" /></p>
 
@@ -272,7 +446,7 @@
 <h2 id='api-gateway'>api-gateway</h2>
 <p>Github: <a href="https://github.com/ebmeds/api-gateway"></a></p>
 
-<p>The API gateway is the access point from the outside world. It mostly acts as a request broker, forwarding requests to the appropriate containers, usually the engine. At the moment, it also provides the translation services between FHIR and the EBMeDS native XML format.</p>
+<p>The API gateway is the access point from the outside world. It mostly acts as a request broker, forwarding requests to the appropriate containers, usually the engine. At the moment, it also provides the translation services between FHIR and the EBMeDS native XML format. Another output option is a custom internal JSON format as used by the apps</p>
 <h3 id='input'>Input</h3>
 <p>FHIR requests, EBMeDS XML requests.</p>
 <h3 id='output'>Output</h3>
