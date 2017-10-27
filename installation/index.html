@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../img/favicon.ico">
+        <title>Installation - EBMeDS 2.0</title>
+        <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../css/font-awesome-4.5.0.css" rel="stylesheet">
+        <link href="../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="../css/highlight.css">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="../js/jquery-1.10.2.min.js"></script>
+        <script src="../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../js/highlight.pack.js"></script> 
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="..">EBMeDS 2.0</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                    <li >
+                        <a href="..">Home</a>
+                    </li>
+                    <li >
+                        <a href="../components/">Components</a>
+                    </li>
+                    <li class="active">
+                        <a href="./">Installation</a>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">API <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            
+<li >
+    <a href="../api/fhir-stu3/">FHIR STU3</a>
+</li>
+                            
+<li >
+    <a href="../api/xml/">XML</a>
+</li>
+                        </ul>
+                    </li>
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                    <li >
+                        <a rel="next" href="../components/">
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../api/fhir-stu3/">
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#installation">Installation</a></li>
+            <li><a href="#install-prerequisites">Install prerequisites</a></li>
+            <li><a href="#get-a-docker-registry-username-from-duodecim">Get a Docker registry username from Duodecim</a></li>
+            <li><a href="#deployment">Deployment</a></li>
+            <li><a href="#configuration">Configuration</a></li>
+            <li><a href="#verifying-the-installation">Verifying the installation</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="installation">Installation</h1>
+<p>The main steps to installing EBMeDS 2.0 are the following:</p>
+<ul>
+<li>Install prerequisites</li>
+<li>Get a Docker registry username from Duodecim</li>
+<li>Pull the Docker images</li>
+<li>Configure the individual Docker images</li>
+<li>Configure the Docker Swarm</li>
+<li>Start up the Swarm</li>
+</ul>
+<p>These steps are given in more detail below.</p>
+<h2 id="install-prerequisites">Install prerequisites</h2>
+<p>EBMeDS 2.x only requires Docker. Docker runs on Linux, Windows and Mac, but Linux is recommended, since Docker runs Linux internally and thus running it on other platforms incurs a small performance hit. Note that Docker supports running Windows internally on newer versions of Windows Server, but this is not supported by EBMeDS.</p>
+<h3 id="install-docker">Install Docker</h3>
+<p>The installation instructions for Docker itself can be found on e.g. <a href="https://www.docker.com">Docker's site</a>. We support version 1.12+.</p>
+<h3 id="install-nodejs-optional">Install Node.js (optional)</h3>
+<p>You will need Node.js to run the <code>npm [...]</code> commands below. You can also run docker commands manually, removing the need for Node. The commands are defined in the file <code>package.json</code>.</p>
+<h3 id="download-ebmeds-docker-repository">Download ebmeds-docker repository</h3>
+<p>Download the zip file from <a href="https://github.com/ebmeds/ebmeds-docker">Github</a> (the "Clone or download" button) or if you have Git installed, run the <code>git clone</code> command.</p>
+<pre><code class="bash"># Get a copy of the EBMeDS Docker configuration
+git clone https://github.com/ebmeds/ebmeds-docker.git
+</code></pre>
+
+<p>This repository does not contain the Docker images themselves, only startup scripts and configuration files. It also contains a sample <code>docker-compose.yml</code> file to get a Docker Swarm up and running with minimal effort.</p>
+<h2 id="get-a-docker-registry-username-from-duodecim">Get a Docker registry username from Duodecim</h2>
+<p>If you don't already have it, you need a Duodecim-supplied username and password to be able to download the EBMeDS Docker images, which reside in a private repository at <code>quay.io</code>. The username is in the form <code>duodecim+yourname</code>.</p>
+<h3 id="login-to-quayio-and-pull-the-required-images">Login to quay.io and pull the required images</h3>
+<p>The built Docker images are stored in a repository on quay.io. Vendor organizations are provided with a login username and password. Developers with access to the EBMeDS Github repos can build the images locally.</p>
+<h3 id="pull-the-docker-images">Pull the Docker images</h3>
+<pre><code class="bash"># Go to the downloaded ebmeds-docker repository
+cd /path/to/ebmeds-docker
+
+# Run script that downloads the latest stable version of the images
+./get-images.sh
+
+# OR if one wishes to use e.g. the latest unstable version
+./get-images.sh dev
+
+# OR if one wishes to use a specific old version (not recommended)
+./get-images.sh 2.0.1
+</code></pre>
+
+<p>You need the proper Docker images downloaded ("pulled") onto your server before running them. This is true for single-machine servers and for each node in larger clusters.</p>
+<p>The <code>get-images.sh</code> script will ask for the username/password of the EBMeDS Docker registry located at <code>quay.io</code>. These credentials are supplied by Duodecim. It will then pull the appropriate docker images and tag them with the following names:</p>
+<ul>
+<li>engine</li>
+<li>api-gateway</li>
+<li>auth</li>
+<li>coaching</li>
+<li>elastichsearch <em>(vanilla)</em></li>
+<li>kibana <em>(vanilla)</em></li>
+<li>logstash <em>(vanilla)</em></li>
+</ul>
+<p>The last three images are the vanilla ELK stack, the rest are custom images.</p>
+<h2 id="deployment">Deployment</h2>
+<h3 id="docker-113">Docker 1.13+</h3>
+<pre><code class="bash"># In the ebmeds-docker root directory:
+npm run docker:init    # init Docker Swarm if not already running.
+npm run docker:start
+
+# to stop
+npm run docker:stop
+
+# and to restart:
+npm run docker:restart  # same as stop + start
+
+# to stop the entire Swarm
+npm run docker:deinit   # not needed in most cases
+</code></pre>
+
+<p>Assuming that the Docker images are available on the machine, there are a bunch of NPM scripts in <code>ebmeds-docker</code> that can start and stop a simple Docker Swarm configuration. <code>docker:init</code> starts up a Docker Swarm with one member: the local machine. It is also the master of the swarm. The command outputs an ID number that other machines can use to join the swarm, for multi-node cluster support. See the Docker documentation for more details on this. The <code>docker:start</code> and <code>docker:stop</code> commands start and stop the containers themselves. They are configured in <code>docker-compose.yml</code>.</p>
+<h3 id="docker-112">Docker 1.12</h3>
+<pre><code class="bash"># Example of how to start a service manually
+docker swarm init
+docker network create --driver overlay ebmedsnet
+docker service create \
+  --name api-gateway \
+  -e LISTEN_PORT=3001 \
+  -e ENGINE_URL='http://engine:3002/dss.asp?mode=test' \
+  --network ebmedsnet \
+  --publish 3001:3001 \
+  --replicas=3 \
+  --update-delay 10s \
+  --update-parallelism 1 \
+  api-gateway
+docker service create ...
+</code></pre>
+
+<p>The oldest supported version of Docker does not have support for Docker Compose files when used together with Docker Swarm. Therefore the command <code>npm run docker:start</code> will not work, and the <code>docker-compose.yml</code> file must be transformed into e.g. shell scripts that set up the services manually. For example, starting the <code>api-gateway</code> service manually (see the example) is a matter of setting environment variables, publishing a port, setting the number of replicas and optionally setting some update settings for Docker's rolling updates.</p>
+<p>Before this the swarm must be initialized and the network ebmedsnet created (in this example). Also note that the environment variables used in this example are the ones found in <code>api-gateway/config.env</code>.</p>
+<h2 id="configuration">Configuration</h2>
+<h3 id="environment-variables">Environment variables</h3>
+<p>All configuration of the EBMeDS services (except the ELK stack) is done through environment variables. These are defined in the <code>ebmeds-docker</code> directory at <code>&lt;image-name&gt;/config.env</code>, i.e. each container is configured separately. The <code>.env</code> files contain comments describing the different options.</p>
+<h3 id="default-ports">Default ports</h3>
+<p>The containers inside the Swarm are configured to listen to the following ports per default:</p>
+<ul>
+<li>api-gateway: 3001</li>
+<li>engine: 3002</li>
+<li>coaching: 3003</li>
+<li>elasticsearch: 9200 (REST API), 9300 (node communication in clusters)</li>
+<li>logstash: 5000 (TCP input)</li>
+<li>kibana: 5601</li>
+</ul>
+<aside class="notice">
+The above ports are not accessible outside of the swarm, except for <code>api-gateway</code> at port 3001 and <code>kibana</code> at port 5601. Port 3001 should therefore be open for general EBMeDS usage (see #Usage) and port 5601 is for log data analysis using the web UI in Kibana, which should be accessible only by trusted sources.
+</aside>
+
+<h3 id="file-system-access">File system access</h3>
+<p>Docker containers cannot per default persist data to disk, i.e. all changes to the container file system are lost when the container is shut down. Therefore, to be able to save data between restarts, the host system running Docker must mount its own directories on top of the file system inside of Docker, to "catch" the saved data. The table below lists the folders that are configured to be mounted onto various Docker containers ($ROOT is the path to the <code>ebmeds-docker</code> project):</p>
+<table>
+<thead>
+<tr>
+<th>Default host directory (configurable)</th>
+<th>Internal Docker directory</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>$ROOT/elasticsearch/data</td>
+<td>/usr/share/elasticsearch/data</td>
+<td>The place where the Elasticsearch DB data lives (may get very large)</td>
+</tr>
+<tr>
+<td>$ROOT/logstash/pipeline</td>
+<td>/usr/share/logstash/pipeline</td>
+<td>How Logstash should process the data flowing through it</td>
+</tr>
+<tr>
+<td>$ROOT/logstash/queue</td>
+<td>/usr/share/logstash/data/queue</td>
+<td>Instead of storing the input queue in memory, persist it to disk to avoid data loss</td>
+</tr>
+<tr>
+<td>$ROOT/logstash/config</td>
+<td>/usr/share/logstash/config</td>
+<td>General configuration for the Logstash server process (usually no need to edit this)</td>
+</tr>
+<tr>
+<td>$ROOT/kibana/config/</td>
+<td>/usr/share/kibana/config</td>
+<td>General configuration for the Kibana server process (usually no need to edit this)</td>
+</tr>
+</tbody>
+</table>
+<p>Note that the permissions must be set correctly for the host folders: the UID and GID should match the UID and GID that the user inside Docker has (which per default is 1000/1000). SELinux labels can also be used to avoid getting permission errors. Permissions on Windows/OSX will behave differently.</p>
+<aside class="notice">
+Also note that the Docker daemon itself will use the file system to store pulled images internally. These images are not removed by default when new versions are pulled, to support roll-backs of updates that are not working etc. The system administrator should keep in mind that the images will, in time, take up a lot of disk space, and steps should be taken to remove unused Docker images.
+</aside>
+
+<h3 id="advanced-deployment">Advanced deployment</h3>
+<p>There are many advanced features of Docker that can be used to make the service more failsafe. This includes backups, monitoring, automatic node failure recovery etc. These advanced features should be implemented by a competent DevOps professional and is not covered in this documentation.</p>
+<h2 id="verifying-the-installation">Verifying the installation</h2>
+<p>To see that the installation is succesful, perform the checklist below. $HOST is the hostname of the server running the Swarm. It may also be localhost:</p>
+<ul>
+<li>Make a HTTP GET to $HOST:3001/status, you should receive the reply "OK".</li>
+<li>Make a HTTP POST to $HOST:3001/xml, with the payload of an EBMeDS XML request. You should receive an XML response.</li>
+<li>Open up Kibana at $HOST:5601 and add the indexes <code>logstash</code> and <code>engine</code>, if not already added.</li>
+<li>In the "Discover" tab, check the <code>logstash</code> index to see that logging from the various containers is working.</li>
+<li>In the "Discover" tab, check the <code>engine</code> index to see that logging of request/response pairs is working (this kind of logging can be turned off).</li>
+<li>On the host's filesystem, check that <code>$ROOT/elasticsearch/data</code> and <code>$ROOT/logstash/queue</code> (or what you have configured them to be) are being populated with files. If not, the folder mounts are not working, and any data saved to the Elasticsearch database will disappear when the <code>elasticsearch</code> container is stopped.</li>
+</ul></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>var base_url = '..';</script>
+        <script src="../js/base.js"></script>
+        <script src="../search/require.js"></script>
+        <script src="../search/search.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>&larr;</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>&rarr;</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    </body>
+</html>
