@@ -21,10 +21,11 @@ In other words ActivityDefinitions of type 1-3 may or may not be present, but at
 
 ### Code systems
 
-See the [code systems page](code-systems.md) for more detailed information.
+These code systems are used when coding an ActivityDefinition. See the [code systems page](code-systems.md) for more detailed information.
 
 * `https://duodecim.fi/fhir/stu3/CodeSystem/activity-definition-custom-actions`: custom codes identifying special types of ActivityDefinitions, like above.
 * `http://91.202.112.142/codeserver/pages/classification-view-page.xhtml?classificationKey=2023&versionKey=2283` a.k.a. OID `1.2.246.537.6.49`: THL Sosiaali- ja terveysalan palvelunimikkeistö
+* `http://91.202.112.142/codeserver/pages/classification-view-page.xhtml?classificationKey=88&versionKey=120` a.k.a. OID `1.2.246.537.6.3`: Kuntaliitto
 
 ### Restrictions
 
@@ -109,7 +110,7 @@ And the fields are described as follows.
         * `system` (string): The code system used in this code. See [a list of used code systems](code-systems.html).
         * `code` (string): The actual code, a symbol in the given system.
         * `display` (string): Human-readable description of the action.
-* `topic`: array of objects
+* `topic`: array of objects, **optional**
     * `text` (markdown string): The reminder text itself. May contain http links and text with light styling.
 * `participant` (array of objects): A list of participants and their roles. In practice there is only ever one entry in this list. Each object contains the following field:
     * `type` (string): one of `patient`, `practitioner` or `related-person`. Only `patient` is in practical use at the moment.
