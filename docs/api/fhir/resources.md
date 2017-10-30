@@ -2,7 +2,9 @@
 
 ## SelfCareActivityDefinition
 
-Base resource: [ActivityDefinition](https://www.hl7.org/fhir/activitydefinition.html)
+*Inherits from*: [ActivityDefinition](https://www.hl7.org/fhir/activitydefinition.html)
+
+*FHIR profile*: [SelfCareActivityDefinition](https://simplifier.net/DuodecimCDS/SelfCareActivityDefinition/)
 
 The main point of the FHIR resource [SelfCareActivityDefinition](https://simplifier.net/DuodecimCDS/SelfCareActivityDefinition/) is to describe an action. In the traditional CDS context the primary unit is the reminder, an informative message that may have an encoded action suggestion attached to it. In the self-care context it is the other way around: we return actions that have messages attached to them.
 
@@ -17,7 +19,7 @@ The ActivityDefinitions in the `selfcare-*` hooks separate the reminder texts fr
 3. Zero or one ActivityDefinition containing the code system `https://duodecim.fi/fhir/stu3/CodeSystem/activity-definition-custom-actions` and the code `read-alert`. This resource contains all reminder texts with severity level `alert` in its `topic.text` field.
 4. Zero or more ActivityDefinition containing any other code system and code, representing the actual actions.
 
-In other words ActivityDefinitions of type 1-3 may or may not be present, but at least one of them contains at least one reminder text. See below for an example.
+In other words: ActivityDefinitions of type 1-3 may or may not be present, but at least one of them contains at least one reminder text. See below for an example.
 
 ### Code systems
 
@@ -110,8 +112,106 @@ And the fields are described as follows.
         * `system` (string): The code system used in this code. See [a list of used code systems](code-systems.html).
         * `code` (string): The actual code, a symbol in the given system.
         * `display` (string): Human-readable description of the action.
-* `topic`: array of objects, **optional**
+* `topic` (array, **optional**):
     * `text` (markdown string): The reminder text itself. May contain http links and text with light styling.
 * `participant` (array of objects): A list of participants and their roles. In practice there is only ever one entry in this list. Each object contains the following field:
     * `type` (string): one of `patient`, `practitioner` or `related-person`. Only `patient` is in practical use at the moment.
 * `copyright` (string): A standard copyright notice.
+
+## SelfCareQuestionnaireResponse
+
+*Inherits from*: [QuestionnaireResponse](https://www.hl7.org/fhir/questionnaireresponse.html)
+
+*FHIR profile*: [SelfCareQuestionnaireResponse](https://simplifier.net/DuodecimCDS/SelfCareQuestionnaireResponse)
+
+The [SelfCareQuestionnaireResponse](https://simplifier.net/DuodecimCDS/SelfCareQuestionnaireResponse) is the counterpart to a Questionnaire: it contains the answers that the user has provided. This can be sent to EBMeDS for decision support.
+
+Here is a complete example:
+
+```json
+{
+  "resourceType": "QuestionnaireResponse",
+  "id": "0685d814-f4af-41a3-8547-5c7e5f97c923",
+  "questionnaire": {
+    "identifier": {
+      "system": "https://duodecim.fi/fhir/sid/vkt-questionnaire-id",
+      "value": "21"
+    }
+  },
+  "status": "completed",
+  "item": [
+    {
+      "linkId": "introduction",
+      "text": "A container item. Has no answer, but contains other items."
+      "item": [
+        {
+          "linkId": "266",
+          "text": "A display-type question in the Questionnaire, has no answer but must be present according to the FHIR spec."
+        },
+        {
+          "linkId": "3",
+          "text": "A question with a numeric answer.",
+          "answer": [
+            {
+              "valueDecimal": 45
+            }
+          ]
+        },
+        {
+          "linkId": "305",
+          "text": "A multiple-choice question. We need to see the Questionnaire resource to know if it is a 'radio button' or 'check box' type multiple choice.",
+          "answer": [
+            {
+              "valueCoding": {
+                "id": "462"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "306",
+          "text": "'Check box' type multiple choice questions may naturally have > 1 answers.",
+          "answer": [
+            {
+              "valueCoding": {
+                "id": "452"
+              }
+            },
+            {
+              "valueCoding": {
+                "id": "453"
+              }
+            }
+          ]
+        },
+        {
+          "linkId": "23"
+          "text": "A boolean-type question."
+          "answer": [
+            {
+              "valueBoolean": true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+```
+
+So the structure has the following fields:
+
+* `resourceType` (string): Always `QuestionnaireResponse`.
+* `id` (string, **optional**): A unique ID, UUID works great. Not needed for CDS, but good to have for archiving purposes.
+* `questionnaire.identifier` (object): A unique identifier for the Questionnaire that this QuestionnaireResponse answers.
+    * `system` (string): Always `https://duodecim.fi/fhir/sid/vkt-questionnaire-id`
+    * `value` (string): A unique ID for the Questionnaire.
+* `status` (string): Always `completed`.
+* `item` (array of objects): Tree hierarchy of the answers to the questionnaire. The hierarchy must be the same as the question hierarchy in the Questionnaire.
+    * `item` (see above, **optional**): Items may contain other items.
+    * `linkId` (string): The unique ID of the question in the Questionnaire resource (also named `linkId` there). This ID is in fact globally unique for all Duodecim Questionnaires.
+    * `answer` (array, **optional**): array of objects with property `value[x]`, corresponding to the Questionnaire `answer[x]` field for the question. The length of the array is always 1, or >= 1 if it is a multiple choice question (`valueCoding`).
+        * `valueBoolean` (boolean): A yes or no question answer.
+        * `valueDecimal` (number): A decimal-valued question answer.
+        * `valueCoding` (object): has one property, `id` (string), the ID of the wanted answer. Also globally unique ID in all Duodecim Questionnaires.
+    * `text` (**optional**): The question text from the Questionnaire repeated here, mostly to aid debugging.

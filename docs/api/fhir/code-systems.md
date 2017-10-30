@@ -1,3 +1,11 @@
+# questoinnaire
+
+* https://duodecim.fi/fhir/sid/vkt-questionnaire-id : ID for questionnaire in VKT, values juokseva numero
+* http://oda.fi/Questionnaire: questionnaire tag, oda questionnaire type
+* http://oda.fi/cds: value "oda1", identify the CDS provider
+* http://loinc.org
+* http://hl7.org/fhir/sid/icd-10-fi
+
 * `https://duodecim.fi/fhir/stu3/CodeSystem/activity-definition-custom-actions`, the identifier for ActivityDefinitions containing reminder texts of different priorities, as above. Values:
     * `read-reminder` (normal priority)
     * `read-prompt` (medium priority)
