@@ -4,7 +4,7 @@
     
     <url>
      <loc>/</loc>
-     <lastmod>2017-10-27</lastmod>
+     <lastmod>2017-11-01</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -12,7 +12,7 @@
     
     <url>
      <loc>/components/</loc>
-     <lastmod>2017-10-27</lastmod>
+     <lastmod>2017-11-01</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -20,7 +20,7 @@
     
     <url>
      <loc>/installation/</loc>
-     <lastmod>2017-10-27</lastmod>
+     <lastmod>2017-11-01</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -28,17 +28,77 @@
     
         
     <url>
-     <loc>/api/fhir-stu3/</loc>
-     <lastmod>2017-10-27</lastmod>
+     <loc>/api/fhir/getting-started/</loc>
+     <lastmod>2017-11-01</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
-     <loc>/api/xml/</loc>
-     <lastmod>2017-10-27</lastmod>
+     <loc>/api/fhir/cds-hooks/</loc>
+     <lastmod>2017-11-01</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
+    <url>
+     <loc>/api/fhir/hook-catalog/</loc>
+     <lastmod>2017-11-01</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/fhir/custom-rest/</loc>
+     <lastmod>2017-11-01</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/fhir/resources/</loc>
+     <lastmod>2017-11-01</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/fhir/code-systems/</loc>
+     <lastmod>2017-11-01</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/fhir/extensions/</loc>
+     <lastmod>2017-11-01</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/fhir/oda/</loc>
+     <lastmod>2017-11-01</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    
+
+    
+        
+    <url>
+     <loc>/api/xml/getting-started/</loc>
+     <lastmod>2017-11-01</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    <url>
+     <loc>/api/xml/xml-schema/</loc>
+     <lastmod>2017-11-01</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
+        
+    
+
+    
+    <url>
+     <loc>/security/</loc>
+     <lastmod>2017-11-01</lastmod>
+     <changefreq>daily</changefreq>
+    </url>
     
 
 </urlset>

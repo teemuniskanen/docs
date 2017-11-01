@@ -1,0 +1,352 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../../img/favicon.ico">
+        <title>CDS hooks - EBMeDS 2.0</title>
+        <link href="../../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../../css/font-awesome-4.5.0.css" rel="stylesheet">
+        <link href="../../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="../../../css/highlight.css">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="../../../js/jquery-1.10.2.min.js"></script>
+        <script src="../../../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../../../js/highlight.pack.js"></script> 
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../../..">EBMeDS 2.0</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                    <li >
+                        <a href="../../..">Home</a>
+                    </li>
+                    <li >
+                        <a href="../../../components/">Components</a>
+                    </li>
+                    <li >
+                        <a href="../../../installation/">Installation</a>
+                    </li>
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">FHIR <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            
+<li >
+    <a href="../getting-started/">Getting started</a>
+</li>
+                            
+<li class="active">
+    <a href="./">CDS hooks</a>
+</li>
+                            
+<li >
+    <a href="../hook-catalog/">Hook catalog</a>
+</li>
+                            
+<li >
+    <a href="../custom-rest/">Custom REST</a>
+</li>
+                            
+<li >
+    <a href="../resources/">Resources</a>
+</li>
+                            
+<li >
+    <a href="../code-systems/">Code Systems</a>
+</li>
+                            
+<li >
+    <a href="../extensions/">Extensions</a>
+</li>
+                            
+<li >
+    <a href="../oda/">ODA-specific information</a>
+</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">XML <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            
+<li >
+    <a href="../../xml/getting-started/">Getting started</a>
+</li>
+                            
+<li >
+    <a href="../../xml/xml-schema/">XML schema</a>
+</li>
+                        </ul>
+                    </li>
+                    <li >
+                        <a href="../../../security/">Security & Error handling</a>
+                    </li>
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                    <li >
+                        <a rel="next" href="../getting-started/">
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../hook-catalog/">
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#cds-hooks">CDS Hooks</a></li>
+            <li><a href="#cds-hooks-rest-api">CDS hooks REST API</a></li>
+            <li><a href="#hook-description-format">Hook description format</a></li>
+            <li><a href="#calling-a-hook">Calling a hook</a></li>
+            <li><a href="#hook-response">Hook response</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="cds-hooks">CDS Hooks</h1>
+<p>EBMeDS uses a slightly customized version of the <a href="http://cds-hooks.org">CDS Hooks</a> standard. This standard is still in flux and will soon reach its 1.0 version, at which point these customizations will be re-evaluated.</p>
+<p>The overall point of CDS hooks is that the calling party calls EBMeDS using three pieces of information:</p>
+<ul>
+<li>The REST endpoint name (the "hook ID"), giving the high-level context, e.g. <code>selfcare-questionnaire-filled</code>.</li>
+<li>The hook name, providing the action/event that triggered this particular call, e.g. <code>questionnaire-completed</code>.</li>
+<li>The clinical data specified in the <a href="../hook-catalog/">EBMeDS hook catalog</a>.</li>
+</ul>
+<p>This enables EBMeDS to tailor its output depending on the usage context, and also to provide a machine-readable format for what data is required. The context itself is not machine-readable, i.e. it is described by natural language, but some <a href="http://cds-hooks.org/#hook-catalog">standardized hooks exist</a>.</p>
+<p><strong>Differences between the EBMeDS implementation and the current CDS hooks documentation</strong>:</p>
+<ul>
+<li>The <code>prefetch</code> field is used widely in EBMeDS at the moment. However, this field is intended to be used as an optional performance enhancement, i.e. the assumed data model in CDS hooks is that the CDS system has access to the calling party's FHIR server, from which it can read the clinical data by itself, if the data is not provided in <code>prefetch</code>. However, in EBMeDS, the <code>prefetch</code> field is mandatory at this moment. The <code>context</code> field will be used exclusively in the future.</li>
+<li>The response format in CDS hooks is in the form of <em>cards</em>. The card is a simple container for a message string (and some metadata) and is therefore usually not flexible enough to contain things like specifying the recipient of the message. Therefore, the meat of the response is located in the <code>suggestions</code> field, which contains an array of FHIR resources, not the structure with different action types (<code>create</code>, <code>update</code>, <code>delete</code>) that is described in the standard. All FHIR resources in the <code>suggestions</code> array are implicitly of the <code>create</code> type at this moment.</li>
+<li>When calling a hook, the <code>context</code> field is currently specified as an array of objects in the standard. This is going to change in version 1.0 of the standard into a simple object. EBMeDS already uses this.</li>
+<li>The <code>context</code> field will work like a "mandatory <code>prefetch</code>" in CDS hooks 1.0, and will be described in the same way in the hook catalog, i.e. using FHIR search strings. EBMeDS also uses <code>context</code> for setting some options, i.e. <code>dataVersion</code>, which specifies which version of the internal clinical datasets EBMeDS should use. This is in no way describable by a FHIR search string.</li>
+<li>In <code>prefetch</code> (or <code>context</code>), most of the FHIR search strings return a Bundle, not an individual resource (like QuestionnaireResponse). However, EBMeDS supports returning an individual resource instead of a Bundle of length one. Bundles will be required in the future.</li>
+</ul>
+<h2 id="cds-hooks-rest-api">CDS hooks REST API</h2>
+<p>The REST API for CDS hooks is very simple. One can <code>GET</code> the list of available hooks (the "hook catalog") from <code>[base-url]/cds-services</code>, and one calls a hook by <code>POST</code>ing to <code>[base-url]/cds-services/[hook-name]</code>. The base URL depends on where and how EBMeDS is installed: one example is <code>https://ebmedscloud.org</code>.</p>
+<h2 id="hook-description-format">Hook description format</h2>
+<p>We will continue with the <code>questionnaire-completed</code> example mentioned briefly above. The EBMeDS hook catalog specifies this kind of hook:</p>
+<pre><code class="json">{
+  &quot;id&quot;: &quot;selfcare-filled-questionnaire&quot;,
+  &quot;hook&quot;: &quot;questionnaire-completed&quot;,
+  &quot;name&quot;: &quot;Self-care questionnaire analysis service&quot;,
+  &quot;description&quot;: &quot;A hook for when a FHIR QuestionnaireResponse filled out by a patient/citizen is available for EBMeDS to process. The response may include directions both for the patient himself, and a medical professional.&quot;,
+  &quot;prefetch&quot;: {
+    &quot;questionnaireResponse&quot;: &quot;/QuestionnaireResponse?patient={{Patient.id}}&quot;
+  }
+}
+</code></pre>
+
+<p>So what does this mean? Let's go through the hook description field by field:</p>
+<ul>
+<li><code>id</code>: Again, the main identifier for the hook in question. This field determines the URL used when calling the hook, e.g. <code>https://ebmedscloud.org/cds-services/selfcare-filled-questionnaire</code>. At the same time, the <code>id</code> provides the most high level context for this hook. The value is unique.</li>
+<li><code>hook</code>: The action or event that triggers this hook. The <code>hook</code> value is not unique, there may be many different CDS hooks (at different REST endpoints i.e. with a different <code>id</code>) that all have the same <code>hook</code> value. The idea is to develop a standardized set of hooks that behave the same in any CDS system. In this case, <code>questionnaire-completed</code> is a non-standard hook, specific to EBMeDS.</li>
+<li><code>name</code>: A short description of the hook.</li>
+<li><code>description</code>: A longer description of the hook.</li>
+<li><code>prefetch</code>: This field is an object, each property within that object acts as a label for a set of FHIR resources, obtained by performing the FHIR search provided in the property value. It is not mandatory to use the search string (e.g. if you do not have a FHIR server), but it does specify the format of the data to be put in the request. <strong>NOTE</strong>: as mentioned, the prefetch fields are mandatory in EBMeDS, but not in the CDS hooks standard.<ul>
+<li><code>prefetch.questionnaireResponse</code>: In this example, there is only one piece of data needed for the CDS hook call. This data is the FHIR resource called QuestionnaireResponse that has presumably just been filled out by the patient in question (identified by <code>{{Patient.id}}</code>). The property name <code>questionnaireResponse</code> is the label given this piece of data. This label will also be used when calling the CDS hook (see below).</li>
+</ul>
+</li>
+</ul>
+<h2 id="calling-a-hook">Calling a hook</h2>
+<p>So, given the hook description above, we can call the hook. The format is, quite simply:</p>
+<pre><code class="json">{
+  &quot;hook&quot;: &quot;questionnaire-completed&quot;,
+  &quot;prefetch&quot;: {
+    &quot;questionnaireResponse&quot;: {
+      &quot;resource&quot;: { QuestionnaireResponse... }
+    }
+  },
+  &quot;context&quot;: {
+    &quot;dataVersion&quot;: &quot;latest&quot;
+  }
+}
+</code></pre>
+
+<ul>
+<li><code>hook</code>: The same value as in the hook description.</li>
+<li><code>prefetch</code>: Contains the same properties as in the hook description. In this case, the wanted QuestionnaireResponse resource is in <code>prefetch.questionnaireResponse.resource</code>.</li>
+<li><code>QuestionnaireResponse...</code>: Omitted for brevity, this is where the actual FHIR resource is. In this case it is a QuestionnaireResponse, so it starts with <code>{ "resourceType": "QuestionnaireResponse" ...</code> etc. See the <a href="../resources/">FHIR resource page</a> for a closer description of the resource, among many others.</li>
+<li><code>context</code>: Depending on the hook, this may contain other properties, but one (optional) property is <code>context.dataVersion</code>. <code>dataVersion</code> is a string containing the wanted version of the clinical data that EBMeDS uses for processing. If the value is <code>latest</code> or the field is missing, EBMeDS uses the latest version. The usage of older versions is not recommended, except for very specific use cases.</li>
+</ul>
+<h2 id="hook-response">Hook response</h2>
+<p>EBMeDS uses two patterns for CDS hook responses. The first pattern is a traditional approach, well suited for the CDS hooks standard. The second pattern is customized for the selfcare context. The example above, as you may remember, is in the selfcare context, so the call above will return the second pattern. More details below.</p>
+<h3 id="traditional-response-to-be-implemented">Traditional response (to be implemented)</h3>
+<p>Traditional CDS is focused on providing one or more text-based messages to a clinical professional, sometimes accompanied by some suggested actions, identified by a code. Each message, or <em>reminder</em>, is independent of the others, i.e. the same actions may be suggested in multiple reminders. It is up to the calling party to handle a user-friendly display of the information, potentially removing duplicate suggested actions, rendering different kinds of messages in different ways etc. An example, showing two reminders, is the following:</p>
+<pre><code class="json">{
+  &quot;cards&quot;: [
+    {
+      &quot;summary&quot;: &quot;Decreased renal function, switch tiatside to furosemide?&quot;,
+      &quot;detail&quot;: &quot;Renal function is decreased (eGFR 21 ml/min 16.10.2017). Tiatsides lose their effect when GFR &lt; 30 ml/min. Consider switching to furosemide.&quot;,
+      &quot;indicator&quot;: &quot;info&quot;,
+      &quot;source&quot;: {
+        &quot;name&quot;: &quot;EBMeDS v2.0.6&quot;,
+        &quot;url&quot;: &quot;https://ebmeds.org/version/v2.0.6/data-version/v0.9.2&quot;
+      },
+      &quot;suggestions&quot;: [
+        { ActivityDefinition... },
+        { ActivityDefinition... },
+        ...
+      ]
+    },
+    {
+      &quot;summary&quot;: &quot;High ferritinine (355 ug/l 15.10.2017) - hemocromatosis?&quot;,
+      &quot;detail&quot;: &quot;High ferritinine concentration (355 ug/l 15.10.2017): Consider the possibility of hemocromatosis. Ferritinine concentration may also be elevated due to infection or liver disease.&quot;,
+      &quot;indicator&quot;: &quot;info&quot;,
+      &quot;source&quot;: {
+        &quot;name&quot;: &quot;EBMeDS v2.0.6&quot;,
+        &quot;url&quot;: &quot;https://ebmeds.org/version/v2.0.6/data-version/v0.9.2&quot;
+      },
+      &quot;suggestions&quot;: [
+        { ActivityDefinition... },
+        { ActivityDefinition... },
+        ...
+      ]
+    }
+  ]
+}
+</code></pre>
+
+<p>Again, <code>ActivityDefinition...</code> signifies a FHIR resource that is omitted for brevity.</p>
+<ul>
+<li><code>cards</code>: Array of one or more card structures, containing a message, importance level, source data and suggested actions.</li>
+<li><code>summary</code>: The short version of the reminder. Good to display in lists etc.</li>
+<li><code>detail</code>: The complete message. Usually only a simple text string, but Github-flavored Markdown is supported.</li>
+<li><code>indicator</code>: One of <code>info</code>, <code>warning</code>, <code>hard-stop</code>. Instructs the calling party how important the reminder is.</li>
+<li><code>source</code>: Contains properties <code>name</code> and <code>url</code>, giving info about the EBMeDS version as well as the clinical data version used for generating the reminders.</li>
+<li><code>suggestions</code>: An array (non-standard CDS hooks) containing zero or more FHIR resources. These resources are to be considered as <code>create</code>-type resources, refer to the CDS hooks documentation for more information. These suggestions are not duplicates within one cards, but several cards may contain the same suggestion.</li>
+</ul>
+<p>These cards are to be displayed by the calling party in a manner they see fit. Refer to the documentation of individual hooks regarding the formats and codings for suggested actions.</p>
+<h3 id="custom-self-care-card-format">Custom self-care card format</h3>
+<p>The self-care context poses some unique challenges. Originally created for a national project in Finland, these CDS cards are required to leave nothing to chance, since most parts of the self-care project in question are automated, without human intervention. In other words, the card format is too vague to offer much help, and all human-readable data is stripped out of it. Instead, the data is all in coded form inside <code>suggestions</code>, more specifically in the form of ActivityDefinition resources. Please refer to the <code>selfcare-*</code> hooks in the hook catalog.</p>
+<pre><code class="json">{
+  &quot;cards&quot;: [
+    {
+      &quot;source&quot;: {
+        &quot;name&quot;: &quot;EBMeDS v0.9.6&quot;,
+        &quot;url&quot;: &quot;https://ebmeds.org/version/v0.9.6/data-version/v0.9.2&quot;
+      },
+      &quot;suggestions&quot;: [
+        { ActivityDefinition... },
+        { ActivityDefinition... },
+        ...
+      ]
+    }
+  ]
+}
+</code></pre></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>var base_url = '../../..';</script>
+        <script src="../../../js/base.js"></script>
+        <script src="../../../search/require.js"></script>
+        <script src="../../../search/search.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>&larr;</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>&rarr;</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    </body>
+</html>

@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../img/favicon.ico">
-        <title>Components - EBMeDS 2.0</title>
+        <title>Security & Error handling - EBMeDS 2.0</title>
         <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
         <link href="../css/font-awesome-4.5.0.css" rel="stylesheet">
         <link href="../css/base.css" rel="stylesheet">
@@ -48,8 +48,8 @@
                     <li >
                         <a href="..">Home</a>
                     </li>
-                    <li class="active">
-                        <a href="./">Components</a>
+                    <li >
+                        <a href="../components/">Components</a>
                     </li>
                     <li >
                         <a href="../installation/">Installation</a>
@@ -104,8 +104,8 @@
 </li>
                         </ul>
                     </li>
-                    <li >
-                        <a href="../security/">Security & Error handling</a>
+                    <li class="active">
+                        <a href="./">Security & Error handling</a>
                     </li>
                 </ul>
 
@@ -116,12 +116,12 @@
                     </a>
                 </li>
                     <li >
-                        <a rel="next" href="..">
+                        <a rel="next" href="../api/xml/xml-schema/">
                             <i class="fa fa-arrow-left"></i> Previous
                         </a>
                     </li>
-                    <li >
-                        <a rel="prev" href="../installation/">
+                    <li class="disabled">
+                        <a rel="prev" >
                             Next <i class="fa fa-arrow-right"></i>
                         </a>
                     </li>
@@ -133,94 +133,62 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#components">Components</a></li>
-            <li><a href="#api-gateway">api-gateway</a></li>
-            <li><a href="#engine">engine</a></li>
-            <li><a href="#coaching">coaching</a></li>
-            <li><a href="#diagnosis-specific-view">diagnosis-specific-view</a></li>
-            <li><a href="#comprehensive-medication-review">comprehensive-medication-review</a></li>
-            <li><a href="#elasticsearch">elasticsearch</a></li>
-            <li><a href="#logstash">logstash</a></li>
-            <li><a href="#kibana">kibana</a></li>
-        <li class="main "><a href="#supporting-tools">Supporting tools</a></li>
-            <li><a href="#script-editor">Script editor</a></li>
+        <li class="main active"><a href="#security">Security</a></li>
+            <li><a href="#network-security">Network security</a></li>
+            <li><a href="#patient-data-security-and-liability">Patient data security and liability</a></li>
+        <li class="main "><a href="#error-handling">Error handling</a></li>
+            <li><a href="#retrying-requests">Retrying requests</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h1 id="components">Components</h1>
-<p><img alt="EBMeDS architecture" src="../images/EBMeDS-architecture.png" /></p>
-<p>When fully deployed, the EBMeDS solution includes the components pictured above. Each component is a Docker container, inside a Docker Swarm. Any of these components can be replicated across several machines, as performance and availability needs dictate. Docker Swarm performs an automatic round-robin load balancing on every network request done to any container with multiple instances.</p>
-<h2 id="api-gateway">api-gateway</h2>
-<p>Github: <a href="https://github.com/ebmeds/api-gateway"></a></p>
-<p>The API gateway is the access point from the outside world. It mostly acts as a request broker, forwarding requests to the appropriate containers, usually the engine. At the moment, it also provides the translation services between FHIR and the EBMeDS native XML format. Another output option is a custom JSON format used by some EBMeDS-connected apps.</p>
+<h1 id="security">Security</h1>
+<h2 id="network-security">Network security</h2>
+<h3 id="httphttps">HTTP/HTTPS</h3>
+<p>By default, EBMeDS 2.0 serves its API over HTTP, with no encryption. It is, however, strongly recommended to use a reverse proxy like <a href="https://nginx.org/en/">nginx</a> to provide SSL termination, i.e. serving the EBMeDS API over HTTPS to users. This is what is done e.g. in the EBMeDS cloud service <a href="https://ebmedscloud.org">ebmedscloud.org</a>.</p>
+<h3 id="authentication-partially-implemented">Authentication (partially implemented)</h3>
+<p>EBMeDS 2.0 handles authentication by a HTTP bearer token. This token must be included in the header of all requests to the service. EBMeDS can be configured to:</p>
 <ul>
-<li>
-<p>Input: FHIR requests, EBMeDS XML requests.</p>
-</li>
-<li>
-<p>Output: FHIR, EBMeDS XML, custom JSON formats.</p>
+<li>Accept all traffic, without a token.</li>
+<li>Authenticate traffic using a single, global token.</li>
+<li>(<strong>To be implemented</strong>) Authenticate traffic using a multitenancy approach, where each user has his own token. This also enables per-user configuration of the response.</li>
+</ul>
+<h2 id="patient-data-security-and-liability">Patient data security and liability</h2>
+<p>EBMeDS operates with patient data, so data security and anonymity is paramount. EBMeDS has no need for any personally identifying data like names or social security numbers. The only biographical information used is age and gender, which is sent in addition to the clinical data (diagnoses, medication etc.) itself. However, it is up to the users of the EBMeDS service to ensure that no explicitly identifying information is sent to EBMeDS. Duodecim accepts no liability should e.g. social security numbers be present in the request data.</p>
+<p>The data security model is simple insofar as EBMeDS is completely stateless. In other words, there is no direct way of connecting the data in a request with any earlier requests. This also means that each request must contain all the data required for that particular CDS context.</p>
+<h3 id="cluster-security">Cluster security</h3>
+<p>EBMeDS is a microservice architecture, meaning that the EBMeDS service in general consists of smaller services that communicate internally with each other. EBMeDS can be run on a single machine or clustered over multiple servers. The underlying platform is Docker Swarm, which has <a href="https://docs.docker.com/engine/userguide/networking/overlay-security-model/">the following network security model</a>.</p>
+<p>In short, if EBMeDS is clustered onto multiple machines, intra-service communication may send patient data "over the wire". This traffic is unencrypted by default. It is up to the system administrator to ensure that communication between cluster nodes is secure, especially if the cluster is located in multiple data centers. Alternatively encryption of the entire Swarm overlay network can be enabled in Docker, although this is bad for performance.</p>
+<h3 id="logging">Logging</h3>
+<p>The one place where patient data may be stored is the service's logs. EBMeDS internally runs the so-called "ELK stack" (Elasticsearch, Logstash, Kibana). In other words, all logs are stored in an Elasticsearch database. Logging is done in two ways: regular service event logs, and logging of request/response data, i.e. patient data. Again, once the data is logged, it is up to the system administrator to store it and its backups in a secure fashion.</p>
+<h4 id="requestresponse-logging">Request/response logging</h4>
+<p>EBMeDS may be configured to log the request data, i.e. patient data, together with the resulting response data structure. This is done partially for debugging purposes, partially for liability purposes (if some user requires a certain period of traceability for all decision support requests). The request/response data is also useful for statistical reasons, and some services utilizing this log data has already cropped up.</p>
+<p>This type of logging can naturally be turned off completely.</p>
+<h4 id="service-event-logging">Service event logging</h4>
+<p>Regular "system logs" from the internal microservices, interesting mainly for system administrators and developers. All services use the <a href="https://github.com/trentm/node-bunyan">Bunyan logging library</a> which in turn sends the logs to Logstash, and finally they end up in Elasticsearch. Bunyan, like so many other logging libraries, has the concept of <em>log levels</em>, i.e. the quantified importance of a particular log message. In normal operation, logging is only done on the <code>info</code> log level, meaning that the levels <code>info</code>, <code>warn</code>, <code>error</code>, <code>fatal</code> actually end up in the log database.</p>
+<p><strong>NOTE</strong>: If the log level is set lower than <code>info</code>, i.e. if it is set to <code>debug</code> or <code>trace</code>, there may be some logging of patient data, in the form of internal data structures that are displayed in the logs. Do not use these log levels in production, at least not if you want to avoid storing patient data.</p>
+<h1 id="error-handling">Error handling</h1>
+<p>EBMeDS 2.0 uses standard HTTP error codes in its API. In addition to this, a JSON body is returned with some additional information, if available.</p>
+<p>Example:</p>
+<pre><code class="json">{
+  &quot;statusCode&quot;: 400,
+  &quot;message&quot;: &quot;Validation error: QuestionnaireResponse did not validate against Questionnaire.&quot;,
+  &quot;code&quot;: 'validation',
+}
+</code></pre>
+
+<ul>
+<li><code>statusCode</code>: The same numerical HTTP error code as in the HTTP headers.</li>
+<li><code>message</code>: A human-readable error message.</li>
+<li><code>code</code> (<strong>optional</strong>): A short string describing special error types, for errors with a definite meaning to the caller. Is not necessarily present in all error messages. The types at the moment are:<ul>
+<li><code>validation</code>: The user sent a request that failed validation in some way.</li>
+<li><code>questionnaire-deprecated</code>: The entire questionnaire has been removed from production and should not be used.</li>
+<li><code>questionnaire-version-deprecated</code>: This specific version of the questionnaire has been removed from production, please use a newer version.</li>
+</ul>
 </li>
 </ul>
-<h2 id="engine">engine</h2>
-<p>The main service, performing most of the calculations when performing decision support. Takes patient XML data as an input, and outputs data to aid in clinical decision making. Most notably, text-based reminder messages. Also produces</p>
-<ul>
-<li>
-<p>Input: EBMeDS XML</p>
-</li>
-<li>
-<p>Output: EBMeDS XML, custom JSON formats</p>
-</li>
-</ul>
-<h2 id="coaching">coaching</h2>
-<p>An ODA-specific container, may or may not be present in the future. A simple REST interface providing access to coaching programs produced by Duodecim. These programs are given in FHIR STU3 form, and contain a number of messages that are to be sent to a patient at set times to aid in e.g. weight loss, cutting down on alcohol consumtion etc.</p>
-<ul>
-<li>
-<p>Input: HTTP REST requests.</p>
-</li>
-<li>
-<p>Output: FHIR</p>
-</li>
-</ul>
-<h2 id="diagnosis-specific-view">diagnosis-specific-view</h2>
-<p>A UI providing a specialised view of the results obtained from the engine, for a specific patient. This container works like a kind of proxy to the engine: instead of sending the XML with patient data to the engine, it is sent to this container. The request is sent onward to the engine with some special flags, making the engine produce a specialised JSON format, that this container renders as HTML for the user. The JSON can also be sent directly to the user, should he want to build his own UI.</p>
-<ul>
-<li>
-<p>Input: EBMeDS XML</p>
-</li>
-<li>
-<p>Output: HTML</p>
-</li>
-</ul>
-<h2 id="comprehensive-medication-review">comprehensive-medication-review</h2>
-<p>Similar to diagnosis-specific-view, this is another specialised UI view, focusing on medication.</p>
-<ul>
-<li>
-<p>Input: EBMeDS XML</p>
-</li>
-<li>
-<p>Output: HTML</p>
-</li>
-</ul>
-<h2 id="elasticsearch">elasticsearch</h2>
-<p>A standard Elasticsearch container, i.e. a database. Used for logging by all other containers (via logstash). Also, the engine saves request/response pairs to a separate index for debugging and statistics.</p>
-<h3 id="indices">Indices</h3>
-<ul>
-<li><code>logstash-*</code>: app logs from all other containers</li>
-<li><code>engine-*</code>: request/response messages</li>
-</ul>
-<h2 id="logstash">logstash</h2>
-<p>A standard Logstash container. Logs from all other containers are sent here, where they are queued and tagged with some extra metadata.</p>
-<h2 id="kibana">kibana</h2>
-<p>A standard Kibana container. Kibana works as a web UI for inspecting logs or any other elasticsearch data. At the moment Kibana in EBMeDS is only geared towards use by system administrators and developers, but there is some demand for users to be able to access their own logs. It should be noted that with standard settings, Elasticsearch and Kibana have no user or namespace support, everything is global. This can be changed by getting an X-Pack license, which is costly.</p>
-<h1 id="supporting-tools">Supporting tools</h1>
-<p>There are a number of tools external to the EBMeDS deployment that is used primarily by Duodecim to produce content. These are hosted by Duodecim.</p>
-<h2 id="script-editor">Script editor</h2>
-<p>URL: <a href="http://www.ebmeds.org/script_editor.asp?mode=framesets"></a></p>
-<p>Web-based UI for editing engine scripts (i.e. rulesets). Individual scripts can be set to apply to e.g. certain organizations, certain countries/languages or certain events. The text reminders are also defined here, as well as their translations.</p>
-<p>This script editor will be replaced by a new version soon.</p>
-<h3 id="compilation">Compilation</h3>
-<p>The scripts and their accompanying data is compiled from the script editor into text files that can be read by the engine. This compilation process also includes "numerical" medical data, i.e. databases of drug interactions etc. Some of this data is bought from other companies, some of it is produced in-house.</p></div>
+<h2 id="retrying-requests">Retrying requests</h2>
+<p>As a general rule of thumb, 4xx errors require some action on the calling side, while 5xx errors are server-side. For 5xx errors, especially HTTP error 503 (service busy/unavailable), it is prudent to retry the request after a short wait, in case the error is transient in nature.</p></div>
         </div>
 
         <footer class="col-md-12">

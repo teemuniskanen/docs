@@ -1,0 +1,775 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../../img/favicon.ico">
+        <title>Resources - EBMeDS 2.0</title>
+        <link href="../../../css/bootstrap-custom.min.css" rel="stylesheet">
+        <link href="../../../css/font-awesome-4.5.0.css" rel="stylesheet">
+        <link href="../../../css/base.css" rel="stylesheet">
+        <link rel="stylesheet" href="../../../css/highlight.css">
+        <!-- HTML5 shim and Respond.js IE8 support of HTML5 elements and media queries -->
+        <!--[if lt IE 9]>
+            <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+            <script src="https://oss.maxcdn.com/libs/respond.js/1.3.0/respond.min.js"></script>
+        <![endif]-->
+
+        <script src="../../../js/jquery-1.10.2.min.js"></script>
+        <script src="../../../js/bootstrap-3.0.3.min.js"></script>
+        <script src="../../../js/highlight.pack.js"></script> 
+    </head>
+
+    <body>
+
+        <div class="navbar navbar-default navbar-fixed-top" role="navigation">
+    <div class="container">
+
+        <!-- Collapsed navigation -->
+        <div class="navbar-header">
+            <!-- Expander button -->
+            <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand" href="../../..">EBMeDS 2.0</a>
+        </div>
+
+        <!-- Expanded navigation -->
+        <div class="navbar-collapse collapse">
+                <!-- Main navigation -->
+                <ul class="nav navbar-nav">
+                    <li >
+                        <a href="../../..">Home</a>
+                    </li>
+                    <li >
+                        <a href="../../../components/">Components</a>
+                    </li>
+                    <li >
+                        <a href="../../../installation/">Installation</a>
+                    </li>
+                    <li class="dropdown active">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">FHIR <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            
+<li >
+    <a href="../getting-started/">Getting started</a>
+</li>
+                            
+<li >
+    <a href="../cds-hooks/">CDS hooks</a>
+</li>
+                            
+<li >
+    <a href="../hook-catalog/">Hook catalog</a>
+</li>
+                            
+<li >
+    <a href="../custom-rest/">Custom REST</a>
+</li>
+                            
+<li class="active">
+    <a href="./">Resources</a>
+</li>
+                            
+<li >
+    <a href="../code-systems/">Code Systems</a>
+</li>
+                            
+<li >
+    <a href="../extensions/">Extensions</a>
+</li>
+                            
+<li >
+    <a href="../oda/">ODA-specific information</a>
+</li>
+                        </ul>
+                    </li>
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">XML <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            
+<li >
+    <a href="../../xml/getting-started/">Getting started</a>
+</li>
+                            
+<li >
+    <a href="../../xml/xml-schema/">XML schema</a>
+</li>
+                        </ul>
+                    </li>
+                    <li >
+                        <a href="../../../security/">Security & Error handling</a>
+                    </li>
+                </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                <li>
+                    <a href="#" data-toggle="modal" data-target="#mkdocs_search_modal">
+                        <i class="fa fa-search"></i> Search
+                    </a>
+                </li>
+                    <li >
+                        <a rel="next" href="../custom-rest/">
+                            <i class="fa fa-arrow-left"></i> Previous
+                        </a>
+                    </li>
+                    <li >
+                        <a rel="prev" href="../code-systems/">
+                            Next <i class="fa fa-arrow-right"></i>
+                        </a>
+                    </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+        <div class="container">
+                <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
+    <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#fhir-resources-in-ebmeds">FHIR resources in EBMeDS</a></li>
+            <li><a href="#selfcarequestionnaire">SelfCareQuestionnaire</a></li>
+            <li><a href="#selfcarequestionnaireresponse">SelfCareQuestionnaireResponse</a></li>
+            <li><a href="#selfcareactivitydefinition">SelfCareActivityDefinition</a></li>
+    </ul>
+</div></div>
+                <div class="col-md-9" role="main">
+
+<h1 id="fhir-resources-in-ebmeds">FHIR resources in EBMeDS</h1>
+<h2 id="selfcarequestionnaire">SelfCareQuestionnaire</h2>
+<p><em>Inherits from</em>: <a href="https://www.hl7.org/fhir/questionnaire.html">Questionnaire</a></p>
+<p><em>FHIR profile</em>: <a href="https://simplifier.net/DuodecimCDS/SelfCareQuestionnaire">SelfCareQuestionnaire</a></p>
+<p>The FHIR <a href="https://www.hl7.org/fhir/questionnaire.html">Questionnaire resource</a> is a general way of describing, you guessed it, questionnaires.</p>
+<h3 id="example">Example</h3>
+<p>An example resource is:</p>
+<pre><code class="json">{
+  &quot;resourceType&quot;:&quot;Questionnaire&quot;,
+  &quot;language&quot;:&quot;fi&quot;,
+  &quot;url&quot;:&quot;https://www.ebmeds.org/form/api/FHIR/forms/export/107/550&quot;,
+  &quot;version&quot;:&quot;v0.9.3&quot;
+  &quot;status&quot;:&quot;active&quot;,
+  &quot;date&quot;:&quot;2017-10-11T11:45:49.036Z&quot;,
+  &quot;publisher&quot;:&quot;© Kustannus Oy Duodecim, 2017&quot;,
+  &quot;copyright&quot;:&quot;© Kustannus Oy Duodecim, 2017&quot;,
+  &quot;identifier&quot;:[
+    {
+      &quot;system&quot;:&quot;https://duodecim.fi/fhir/sid/vkt-questionnaire-id&quot;,
+      &quot;value&quot;:&quot;107&quot;
+    }
+  ],
+  &quot;title&quot;:&quot;Hengitystietulehdusoireiden oirearvio&quot;,
+  &quot;text&quot;:{
+    &quot;status&quot;:&quot;generated&quot;,
+    &quot;div&quot;:&quot;&lt;div xmlns=\&quot;http://www.w3.org/1999/xhtml\&quot;&gt;Neuvova oirearviolomake, joka auttaa hengitystieinfektion oireita potevaa henkilöä arvioimaan ammattiavun tarvetta ja omahoidon mahdollisuuksia&lt;/div&gt;&quot;
+  },
+  &quot;extension&quot;:[
+    {
+      &quot;url&quot;:&quot;https://duodecim.fi/fhir/extensions/self-care-instructions&quot;,
+      &quot;extension&quot;:[
+        {
+          &quot;url&quot;:&quot;instruction-text&quot;,
+          &quot;valueString&quot;:&quot;[Itsehoito-ohje](http://www.terveyskirjasto.fi/terveyskirjasto/tk.koti?p_artikkeli=dlk01167)&quot;
+        }
+      ]
+    }
+  ],
+  &quot;item&quot;:[
+    {
+      &quot;linkId&quot;:&quot;introduction&quot;,
+      &quot;text&quot;:&quot;Introductory text of the questionnaire. Also a container item. Has no answer, but contains other items. The text is written in markdown, so it may contain [links](https://ebmeds.org).&quot;,
+      &quot;type&quot;:&quot;group&quot;,
+      &quot;item&quot;:[
+        {
+          &quot;linkId&quot;: &quot;266&quot;,
+          &quot;type&quot;: &quot;display&quot;
+          &quot;text&quot;: &quot;A display-type question in the Questionnaire, has no answer but must also be present in the QuestionnaireResponse according to the FHIR spec.&quot;
+        },
+        {
+          &quot;linkId&quot;:&quot;3&quot;,
+          &quot;type&quot;:&quot;decimal&quot;,
+          &quot;text&quot;:&quot;A question with a numeric answer. (For example, age.)&quot;,
+          &quot;required&quot;:true,
+          &quot;code&quot;:[
+            {
+              &quot;system&quot;:&quot;http://loinc.org&quot;,
+              &quot;code&quot;:&quot;21612-7&quot;
+            }
+          ],
+          &quot;extension&quot;:[
+            {
+              &quot;url&quot;:&quot;http://hl7.org/fhir/StructureDefinition/minValue&quot;,
+              &quot;valueDecimal&quot;:10
+            },
+            {
+              &quot;url&quot;:&quot;http://hl7.org/fhir/StructureDefinition/maxValue&quot;,
+              &quot;valueDecimal&quot;:99
+            }
+          ]
+        },
+        {
+          &quot;linkId&quot;:&quot;306&quot;,
+          &quot;required&quot;:true,
+          &quot;text&quot;:&quot;'Check box' type multiple choice questions may naturally have &gt; 1 answers.&quot;,
+          &quot;type&quot;:&quot;choice&quot;,
+          &quot;repeats&quot;:true,
+          &quot;option&quot;:[
+            {
+              &quot;valueCoding&quot;:{
+                &quot;id&quot;:&quot;452&quot;,
+                &quot;display&quot;:&quot;First option.&quot;
+              }
+            },
+            {
+              &quot;valueCoding&quot;:{
+                &quot;id&quot;:&quot;453&quot;,
+                &quot;display&quot;:&quot;Second option.&quot;
+              }
+            },
+            {
+              &quot;valueCoding&quot;:{
+                &quot;id&quot;:&quot;453&quot;,
+                &quot;display&quot;:&quot;None of the above.&quot;
+              },
+              &quot;extension&quot;: [
+                {
+                  &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-optionExclusive&quot;,
+                  &quot;valueBoolean&quot;: true
+                }
+              ]
+            }
+          ],
+        },
+        {
+          &quot;linkId&quot;:&quot;305&quot;,
+          &quot;required&quot;:true,
+          &quot;text&quot;:&quot;A 'radio button' type multiple choice question. In the QuestionnaireResponse, looks identical to a checkbox answer with one answer checked.&quot;,
+          &quot;type&quot;:&quot;choice&quot;,
+          &quot;repeats&quot;:false,
+          &quot;option&quot;:[
+            {
+              &quot;valueCoding&quot;:{
+                &quot;id&quot;:&quot;462&quot;,
+                &quot;display&quot;:&quot;First option.&quot;
+              }
+            },
+            {
+              &quot;valueCoding&quot;:{
+                &quot;id&quot;:&quot;463&quot;,
+                &quot;display&quot;:&quot;Second option.&quot;
+              }
+            },
+            {
+              &quot;valueCoding&quot;:{
+                &quot;id&quot;:&quot;464&quot;,
+                &quot;display&quot;:&quot;Third option.&quot;
+              }
+            }
+          ],
+        },
+        {
+          &quot;linkId&quot;: &quot;23&quot;,
+          &quot;required&quot;: true,
+          &quot;text&quot;: &quot;A boolean-type question. In the Questionnaire this question contains display logic, i.e. the question is only visible when certain other questions have been answered in a certain way. In this example, the numerical answer in question ID 3 must be between 15 and 99.&quot;,
+          &quot;type&quot;: &quot;boolean&quot;,
+          &quot;enableWhen&quot;: [
+            {
+              &quot;question&quot;: &quot;3&quot;,
+              &quot;answerQuantity&quot;: {
+                &quot;value&quot;: 15,
+                &quot;comparator&quot;: &quot;&gt;&quot;
+              }
+            },
+            {
+              &quot;question&quot;: &quot;3&quot;,
+              &quot;extension&quot;: [
+                {
+                  &quot;url&quot;: &quot;https://duodecim.fi/fhir/extensions/enable-when-operator&quot;,
+                  &quot;valueString&quot;: &quot;AND&quot;
+                }
+              ],
+              &quot;answerQuantity&quot;: {
+                &quot;value&quot;: 99,
+                &quot;comparator&quot;: &quot;&lt;&quot;
+              }
+            }
+          ]
+        }
+    }
+  ]
+}
+</code></pre>
+
+<p>With the fields:</p>
+<ul>
+<li><code>resourceType</code> (string): Always <code>Questionnaire</code>.</li>
+<li><code>language</code> (string): What language is the form written in? BCP47 language tag, e.g. <code>fi</code> or <code>fi-FI</code>.</li>
+<li><code>url</code> (string): Globally unique URL for this questionnaire.</li>
+<li><code>status</code> (string): Can be <code>active</code>, <code>draft</code> or <code>retired</code>. Only active questionnaires should be used in production.</li>
+<li><code>date</code> (string): ISO 8601 date of when the Questionnaire was created or last modified.</li>
+<li><code>publisher</code> (string): Who published the Questionnaire. Usually Duodecim.</li>
+<li><code>copyright</code> (string): Standard copyright notice.</li>
+<li><code>identifier</code> (array of objects): Identifying codes, in practice only one object is listed.<ul>
+<li><code>system</code> (string): <code>'http://duodecim.fi/fhir/sid/vkt-questionnaire-id'</code>, an internally defined code system.</li>
+<li><code>code</code> (string): The unique ID for this questionnaire (although different versions may exist with the same ID).</li>
+</ul>
+</li>
+<li><code>title</code> (string): The title of this questionnaire.</li>
+<li><code>text</code> (object): A FHIR Narrative object, i.e. a human-readable description of the contents of this resource. Has the following fields:<ul>
+<li><code>status</code> (string): Always <code>'generated'</code>.</li>
+<li><code>div</code> (string): A string containing an XHTML <code>div</code> with the contents. Note that entity references are not allowed.</li>
+</ul>
+</li>
+<li><code>item</code> (array of objects): The field describing one or more questions. Items may contain other items, forming a tree structure.</li>
+</ul>
+<h3 id="questionnaire-items">Questionnaire items</h3>
+<p>The example Questionnaire above contains an assortment of the most common variants of a question item: the different question types, as well as the usage display logic (<code>enableWhen</code>) and custom extensions.</p>
+<p>The fields in <code>item</code> are as follows.</p>
+<ul>
+<li><code>item</code> (object): Items may contain other items.</li>
+<li><code>linkId</code> (string): A unique ID for identifying this question in the form.</li>
+<li><code>text</code> (string, markdown, <strong>optional</strong>): A markdown string containing the question text. May contain light text formatting and links to images. Not needed for certain item types, e.g. <code>group</code>.</li>
+<li><code>required</code> (boolean): Whether or not this question is required to be answered. Questions with <code>type: 'display'</code> or <code>type: 'group'</code> can not be <code>required</code>. The <code>required</code> property is also not applicable to questions that are not visible to the user due to display logic hiding them. As a rule of thumb, the Questionnaires generated by Duodecim assume that all (visible and answerable) questions are required.</li>
+<li><code>type</code> (string): One of <code>'decimal'</code>, <code>'boolean'</code>, <code>'string'</code>, <code>'integer'</code>, <code>'decimal'</code>, <code>'date'</code>, <code>'dateTime'</code>, '<code>choice</code>' for actual questions. We also have the special types <code>'group'</code> (that only contains other items) and <code>'display'</code> which is used to show some informative text and/or subtitles (in markdown). See section "Question types" below.</li>
+<li><code>enableWhen</code> (array of objects): A list of criteria for when this question should be visible to the user. Each criterium in the list is connected to the other by boolean OR operators by default, with AND operators being implemented by an extension. See the section "Questionnaire extensions".</li>
+</ul>
+<h3 id="questionnaire-extensions">Questionnaire extensions</h3>
+<h4 id="self-care-instructions">self-care-instructions</h4>
+<ul>
+<li>URL: <code>https://duodecim.fi/fhir/extensions/self-care-instructions</code></li>
+<li>Location: Questionnaire root</li>
+</ul>
+<p>Contains the sub-extension <code>instruction-text</code>. Has a string value which is a markdown string containing a link to long-form self-care instructions.</p>
+<p>Example:</p>
+<pre><code class="json">{
+  &quot;url&quot;:&quot;https://duodecim.fi/fhir/extensions/self-care-instructions&quot;,
+  &quot;extension&quot;:[
+    {
+      &quot;url&quot;:&quot;instruction-text&quot;,
+      &quot;valueString&quot;:&quot;[Itsehoito-ohje](http://www.terveyskirjasto.fi/terveyskirjasto/tk.koti?p_artikkeli=dlk01167)&quot;
+    }
+  ]
+}
+</code></pre>
+
+<h4 id="displaycategory">displayCategory</h4>
+<ul>
+<li>URL: <code>http://hl7.org/fhir/StructureDefinition/questionnaire-displayCategory</code></li>
+<li>Location: Questionnaire.item (and sub-items)</li>
+</ul>
+<p>Question with <code>type: 'display'</code> require a few more subcategories, which is the purpose of this HL7 extension. The allowed values are:</p>
+<ul>
+<li><code>subtitle</code>: As the name implies, a string designed to be a subtitle. The <code>text</code> field in this question is also styled with a markdown-style subtitle tag (<code># Example subtitle</code>).</li>
+<li><code>feedback</code>: Answering a set of questions in a certain way may provoke some immediate feedback in the questionnaire itself, without having to send the QuestionnaireResponse to EBMeDS. This display-type question contains this kind of feedback.</li>
+<li><code>terminus</code>: This is similar to <code>feedback</code>, except that if the user has answered questions that produce this type of feedback, the situation is so critical that he should be stopped from answering any more questions, and immediately seek help. The UI should hide the questions following this feedback type, if it is visible.</li>
+</ul>
+<p>Example:</p>
+<pre><code class="json">{
+  &quot;linkId&quot;:&quot;14&quot;,
+  &quot;text&quot;:&quot;# A subtitle&quot;,
+  &quot;type&quot;:&quot;display&quot;,
+  &quot;extension&quot;:[
+    {
+      &quot;url&quot;:&quot;http://hl7.org/fhir/StructureDefinition/questionnaire-displayCategory&quot;,
+      &quot;valueString&quot;:&quot;subtitle&quot;
+    }
+  ]
+}
+{
+  &quot;linkId&quot;:&quot;15&quot;,
+  &quot;text&quot;:&quot;Things are really bad.&quot;,
+  &quot;type&quot;:&quot;display&quot;,
+  &quot;extension&quot;:[
+    {
+      &quot;url&quot;:&quot;http://hl7.org/fhir/StructureDefinition/questionnaire-displayCategory&quot;,
+      &quot;valueString&quot;:&quot;terminus&quot;
+    }
+  ]
+}
+</code></pre>
+
+<h4 id="minvalue">minValue</h4>
+<ul>
+<li>URL: <code>http://hl7.org/fhir/StructureDefinition/minValue</code></li>
+<li>Location: Questionnaire.item (and sub-items)</li>
+</ul>
+<p>Extension by HL7 to specify a minimum value for a numerical question. Is often seen together with maxValue.</p>
+<p>Example:</p>
+<pre><code class="json">{
+  &quot;url&quot;:&quot;http://hl7.org/fhir/StructureDefinition/minValue&quot;,
+  &quot;valueDecimal&quot;:10
+}
+</code></pre>
+
+<h4 id="maxvalue">maxValue</h4>
+<ul>
+<li>URL: <code>http://hl7.org/fhir/StructureDefinition/minValue</code></li>
+<li>Location: Questionnaire.item (and sub-items)</li>
+</ul>
+<p>Extension by HL7 to specify a maximum value for a numerical question. Is often seen together with minValue.</p>
+<p>Example:</p>
+<pre><code class="json">{
+  &quot;url&quot;:&quot;http://hl7.org/fhir/StructureDefinition/maxValue&quot;,
+  &quot;valueDecimal&quot;:99
+}
+</code></pre>
+
+<p>There is some special UI logic required to handle a multiple choice question with the choice "none of the above". For this we use an extension that marks one of the choices as exclusive:</p>
+<h4 id="optionexclusive">optionExclusive</h4>
+<ul>
+<li>URL: <code>http://hl7.org/fhir/StructureDefinition/questionnaire-optionExclusive</code></li>
+<li>Location: Questionnaire.item.option (and in sub-items)</li>
+</ul>
+<p>HL7 extension to specify that a multiple choice answer is <em>exclusive</em>, i.e. in a 'checkbox' multiple choice question, if you check this answer, all other options are taken to be unchecked, and should be greyed out in the UI. Mainly used for 'none of the above' types of answer choices.</p>
+<p>Example:</p>
+<pre><code class="json">{
+  &quot;valueCoding&quot;:{
+    &quot;id&quot;: &quot;-1&quot;,
+    &quot;display&quot;: &quot;None of the above&quot;
+    &quot;extension&quot;: [
+      {
+        &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-optionExclusive&quot;,
+        &quot;valueBoolean&quot;: true
+      }
+    ]
+  }
+},
+</code></pre>
+
+<h4 id="enable-when-operator">enable-when-operator</h4>
+<ul>
+<li>URL: <code>https://duodecim.fi/fhir/extensions/enable-when-operator</code></li>
+<li>Location: Questionnaire.item.enableWhen (and in sub-items)</li>
+</ul>
+<p>The display logic conditions in <code>Questionnaire.item.enableWhen</code> are given in an array. By default, the question should be visible when <em>any</em> of the listed conditions are true. This extension takes a string value <code>AND</code>, <code>OR</code>, <code>NOT</code>. They should be interpreted in the following manner:</p>
+<ul>
+<li><code>OR</code>: If the condition extension contains this value, the logical operator between this condition and the previous condition in the array is the boolean OR. (This is the default when the extension is not present.)</li>
+<li><code>AND</code>: As above, but the boolean operator is AND.</li>
+<li><code>NOT</code>: This applies the NOT operator to the current condition.</li>
+</ul>
+<p>The same extension may be present multiple times in a condition, to construct e.g. AND NOT.</p>
+<p>Example:</p>
+<pre><code class="json">{
+  &quot;linkId&quot;: &quot;23&quot;,
+  &quot;required&quot;: true,
+  &quot;type&quot;: &quot;boolean&quot;,
+  &quot;enableWhen&quot;: [
+    {
+      &quot;question&quot;: &quot;3&quot;,
+      &quot;answerQuantity&quot;: {
+        &quot;value&quot;: 15,
+        &quot;comparator&quot;: &quot;&gt;&quot;
+      }
+    },
+    {
+      &quot;question&quot;: &quot;3&quot;,
+      &quot;extension&quot;: [
+        {
+          &quot;url&quot;: &quot;https://duodecim.fi/fhir/extensions/enable-when-operator&quot;,
+          &quot;valueString&quot;: &quot;AND&quot;
+        }
+      ],
+      &quot;answerQuantity&quot;: {
+        &quot;value&quot;: 99,
+        &quot;comparator&quot;: &quot;&lt;&quot;
+      }
+    }
+  ]
+}
+</code></pre>
+
+<h2 id="selfcarequestionnaireresponse">SelfCareQuestionnaireResponse</h2>
+<p><em>Inherits from</em>: <a href="https://www.hl7.org/fhir/questionnaireresponse.html">QuestionnaireResponse</a></p>
+<p><em>FHIR profile</em>: <a href="https://simplifier.net/DuodecimCDS/SelfCareQuestionnaireResponse">SelfCareQuestionnaireResponse</a></p>
+<p>The <a href="https://simplifier.net/DuodecimCDS/SelfCareQuestionnaireResponse">SelfCareQuestionnaireResponse</a> is the counterpart to a Questionnaire: it contains the answers that the user has provided. This can be sent to EBMeDS for decision support.</p>
+<p>Here is a complete example:</p>
+<pre><code class="json">{
+  &quot;resourceType&quot;: &quot;QuestionnaireResponse&quot;,
+  &quot;id&quot;: &quot;0685d814-f4af-41a3-8547-5c7e5f97c923&quot;,
+  &quot;questionnaire&quot;: {
+    &quot;identifier&quot;: {
+      &quot;system&quot;: &quot;https://duodecim.fi/fhir/sid/vkt-questionnaire-id&quot;,
+      &quot;value&quot;: &quot;21&quot;
+    }
+  },
+  &quot;status&quot;: &quot;completed&quot;,
+  &quot;item&quot;: [
+    {
+      &quot;linkId&quot;: &quot;introduction&quot;,
+      &quot;text&quot;: &quot;Introductory text of the questionnaire. Also a container item. Has no answer, but contains other items. The text is written in markdown, so it may contain [links](https://ebmeds.org).&quot;
+      &quot;item&quot;: [
+        {
+          &quot;linkId&quot;: &quot;266&quot;,
+          &quot;text&quot;: &quot;A display-type question in the Questionnaire, has no answer but must also be present in the QuestionnaireResponse according to the FHIR spec.&quot;
+        },
+        {
+          &quot;linkId&quot;: &quot;3&quot;,
+          &quot;text&quot;: &quot;A question with a numeric answer. (For example, age.)&quot;,
+          &quot;answer&quot;: [
+            {
+              &quot;valueDecimal&quot;: 45
+            }
+          ]
+        },
+        {
+          &quot;linkId&quot;: &quot;306&quot;,
+          &quot;text&quot;: &quot;'Check box' type multiple choice questions may naturally have &gt; 1 answers.&quot;,
+          &quot;answer&quot;: [
+            {
+              &quot;valueCoding&quot;: {
+                &quot;id&quot;: &quot;452&quot;
+              }
+            },
+            {
+              &quot;valueCoding&quot;: {
+                &quot;id&quot;: &quot;453&quot;
+              }
+            }
+          ]
+        },
+        {
+          &quot;linkId&quot;: &quot;305&quot;,
+          &quot;text&quot;: &quot;A 'radio button' type multiple choice question. In the QuestionnaireResponse, looks identical to a checkbox answer with one answer checked.&quot;,
+          &quot;answer&quot;: [
+            {
+              &quot;valueCoding&quot;: {
+                &quot;id&quot;: &quot;462&quot;
+              }
+            }
+          ]
+        },
+        {
+          &quot;linkId&quot;: &quot;23&quot;
+          &quot;text&quot;: &quot;A boolean-type question. In the Questionnaire this question contains display logic, i.e. the question is only visible when certain other questions have been answered in a certain way. In this example, the numerical answer in question ID 3 must be between 15 and 99.&quot;
+          &quot;answer&quot;: [
+            {
+              &quot;valueBoolean&quot;: true
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+</code></pre>
+
+<p>So the structure has the following fields:</p>
+<ul>
+<li><code>resourceType</code> (string): Always <code>QuestionnaireResponse</code>.</li>
+<li><code>id</code> (string, <strong>optional</strong>): A unique ID, UUID works great. Not needed for CDS, but good to have for archiving purposes.</li>
+<li><code>questionnaire.identifier</code> (object): A unique identifier for the Questionnaire that this QuestionnaireResponse answers.<ul>
+<li><code>system</code> (string): Always <code>https://duodecim.fi/fhir/sid/vkt-questionnaire-id</code></li>
+<li><code>value</code> (string): A unique ID for the Questionnaire.</li>
+</ul>
+</li>
+<li><code>status</code> (string): Always <code>completed</code>.</li>
+<li><code>item</code> (array of objects): Tree hierarchy of the answers to the questionnaire. The hierarchy must be the same as the question hierarchy in the Questionnaire.<ul>
+<li><code>item</code> (see above, <strong>optional</strong>): Items may contain other items.</li>
+<li><code>linkId</code> (string): The unique ID of the question in the Questionnaire resource (also named <code>linkId</code> there). This ID is in fact globally unique for all Duodecim Questionnaires.</li>
+<li><code>answer</code> (array, <strong>optional</strong>): array of objects with property <code>value[x]</code>, corresponding to the Questionnaire <code>answer[x]</code> field for the question. The length of the array is always 1, or &gt;= 1 if it is a multiple choice question (<code>valueCoding</code>).<ul>
+<li><code>valueBoolean</code> (boolean): A yes or no question answer.</li>
+<li><code>valueDecimal</code> (number): A decimal-valued question answer.</li>
+<li><code>valueCoding</code> (object): has one property, <code>id</code> (string), the ID of the wanted answer. Also globally unique ID in all Duodecim Questionnaires.</li>
+</ul>
+</li>
+<li><code>text</code> (markdown string, <strong>optional</strong>): The question text from the Questionnaire repeated here, mostly to aid debugging.</li>
+</ul>
+</li>
+</ul>
+<h2 id="selfcareactivitydefinition">SelfCareActivityDefinition</h2>
+<p><em>Inherits from</em>: <a href="https://www.hl7.org/fhir/activitydefinition.html">ActivityDefinition</a></p>
+<p><em>FHIR profile</em>: <a href="https://simplifier.net/DuodecimCDS/SelfCareActivityDefinition/">SelfCareActivityDefinition</a></p>
+<p>The main point of the FHIR resource <a href="https://simplifier.net/DuodecimCDS/SelfCareActivityDefinition/">SelfCareActivityDefinition</a> is to describe an action. In the traditional CDS context the primary unit is the reminder, an informative message that may have an encoded action suggestion attached to it. In the self-care context it is the other way around: we return actions that have messages attached to them.</p>
+<p>In practice, this means that if several reminders suggest the same action, only one SelfCareActivityDefinition is returned, with several reminder texts attached to it. This also means that the card structure of CDS hooks becomes meaningless, see the discussion at the bottom of <a href="../cds-hooks/#customselfcarecardformat">this page</a>.</p>
+<h3 id="data-model">Data model</h3>
+<p>The ActivityDefinitions in the <code>selfcare-*</code> hooks separate the reminder texts from their suggested actions. Given a set of reminders, each with 0 or more suggested actions attached to them, the reminder texts and actions are split up into several SelfCareActivityDefinitions:</p>
+<ol>
+<li>Zero or one ActivityDefinition containing the code system <code>https://duodecim.fi/fhir/stu3/CodeSystem/activity-definition-custom-actions</code> and the code <code>read-reminder</code>. This resource contains all reminder texts with severity level <code>reminder</code> in its <code>topic.text</code> field.</li>
+<li>Zero or one ActivityDefinition containing the code system <code>https://duodecim.fi/fhir/stu3/CodeSystem/activity-definition-custom-actions</code> and the code <code>read-prompt</code>. This resource contains all reminder texts with severity level <code>prompt</code> in its <code>topic.text</code> field.</li>
+<li>Zero or one ActivityDefinition containing the code system <code>https://duodecim.fi/fhir/stu3/CodeSystem/activity-definition-custom-actions</code> and the code <code>read-alert</code>. This resource contains all reminder texts with severity level <code>alert</code> in its <code>topic.text</code> field.</li>
+<li>Zero or more ActivityDefinition containing any other code system and code, representing the actual actions.</li>
+</ol>
+<p>In other words: ActivityDefinitions of type 1-3 may or may not be present, but at least one of them contains at least one reminder text. See below for an example.</p>
+<h3 id="code-systems">Code systems</h3>
+<p>These code systems are used when coding an ActivityDefinition. See the <a href="../code-systems/">code systems page</a> for more detailed information.</p>
+<ul>
+<li><code>https://duodecim.fi/fhir/stu3/CodeSystem/activity-definition-custom-actions</code>: custom codes identifying special types of ActivityDefinitions, like above.</li>
+<li><code>http://91.202.112.142/codeserver/pages/classification-view-page.xhtml?classificationKey=2023&amp;versionKey=2283</code> a.k.a. OID <code>1.2.246.537.6.49</code>: THL Sosiaali- ja terveysalan palvelunimikkeistö</li>
+<li><code>http://91.202.112.142/codeserver/pages/classification-view-page.xhtml?classificationKey=88&amp;versionKey=120</code> a.k.a. OID <code>1.2.246.537.6.3</code>: Kuntaliitto</li>
+</ul>
+<h3 id="restrictions">Restrictions</h3>
+<p>Some restrictions have been put in place to simplify data processing, using the <a href="https://simplifier.net/DuodecimCDS/SelfCareActivityDefinition/">SelfCareActivityDefinition</a> profile.</p>
+<ul>
+<li>A SelfCareActivityDefinition is described by exactly one code, i.e. <code>code</code> must be present and <code>code.coding</code> may contain only one coding. The coding represents some kind of action.</li>
+<li>A reminder must have exactly one <code>participant</code>, i.e. the intended recipient of this SelfCareActivityDefinition. This is either the patient or a medical professional.</li>
+<li>The ActivityDefinitions are always freshly generated, so their <code>status</code> is always <code>active</code>.</li>
+</ul>
+<h3 id="example_1">Example</h3>
+<p>Below is an example of the two kinds of SelfCareActivityDefinitions (one describing an action, one containing reminder texts) in a CDS response:</p>
+<pre><code class="json">{
+  &quot;cards&quot;: [
+    {
+      &quot;summary&quot;: &quot;Selfcare action suggestions&quot;,
+      &quot;indicator&quot;: &quot;info&quot;,
+      &quot;source&quot;: {
+        &quot;name&quot;: &quot;EBMeDS v2.0.6&quot;,
+        &quot;url&quot;: &quot;https://ebmeds.org/version/v2.0.6/data-version/v0.9.2&quot;
+      },
+      &quot;suggestions&quot;: [
+        {
+          &quot;resourceType&quot;: &quot;ActivityDefinition&quot;,
+          &quot;status&quot;: &quot;active&quot;,
+          &quot;copyright&quot;: &quot;Kustannus Oy Duodecim, 2017&quot;,
+          &quot;participant&quot;: [
+            {
+              &quot;type&quot;: &quot;patient&quot;
+            }
+          ],
+          &quot;kind&quot;: &quot;Observation&quot;,
+          &quot;code&quot;: {
+            &quot;coding&quot;: [
+              {
+                &quot;code&quot;: &quot;ADA001-P1&quot;,
+                &quot;system&quot;: &quot;http://91.202.112.142/codeserver/pages/classification-view-page.xhtml?classificationKey=2023&amp;versionKey=2283&quot;,
+                &quot;display&quot;: &quot;Yleislääkärin päivystyksen palvelut - Hoidetaan päivystyksenä&quot;
+              }
+            ]
+          }
+        },
+        {
+          &quot;resourceType&quot;: &quot;ActivityDefinition&quot;,
+          &quot;status&quot;: &quot;active&quot;,
+          &quot;copyright&quot;: &quot;Kustannus Oy Duodecim, 2017&quot;,
+          &quot;participant&quot;: [
+            {
+              &quot;type&quot;: &quot;patient&quot;
+            }
+          ],
+          &quot;kind&quot;: &quot;CommunicationRequest&quot;,
+          &quot;code&quot;: {
+            &quot;coding&quot;: [
+              {
+                &quot;system&quot;: &quot;https://duodecim.fi/fhir/stu3/CodeSystem/activity-definition-custom-actions&quot;,
+                &quot;code&quot;: &quot;read-reminder&quot;,
+                &quot;display&quot;: &quot;Lue muistutteet&quot;
+              }
+            ]
+          },
+          &quot;topic&quot;: [
+            {
+              &quot;text&quot;: &quot;Oireesi voivat johtua virtsatietulehduksesta, joka voi olla munuaistasoinen. Hakeudu päivystysvastaanotolle.&quot;
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
+</code></pre>
+
+<p>And the fields are described as follows.</p>
+<ul>
+<li><code>resourceType</code> (string): Always <code>ActivityDefinition</code> for this resource.</li>
+<li><code>status</code> (string): Only <code>active</code> ActivityDefinitions are returned.</li>
+<li><code>code</code> (object, CodeableConcept): The code describing the action.<ul>
+<li><code>coding</code>: container object for a code + code system<ul>
+<li><code>system</code> (string): The code system used in this code. See <a href="../code-systems.html">a list of used code systems</a>.</li>
+<li><code>code</code> (string): The actual code, a symbol in the given system.</li>
+<li><code>display</code> (string): Human-readable description of the action.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><code>topic</code> (array, <strong>optional</strong>):<ul>
+<li><code>text</code> (markdown string): The reminder text itself. May contain http links and text with light styling.</li>
+</ul>
+</li>
+<li><code>participant</code> (array of objects): A list of participants and their roles. In practice there is only ever one entry in this list. Each object contains the following field:<ul>
+<li><code>type</code> (string): one of <code>patient</code>, <code>practitioner</code> or <code>related-person</code>. Only <code>patient</code> is in practical use at the moment.</li>
+</ul>
+</li>
+<li><code>copyright</code> (string): A standard copyright notice.</li>
+</ul></div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="http://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script>var base_url = '../../..';</script>
+        <script src="../../../js/base.js"></script>
+        <script src="../../../search/require.js"></script>
+        <script src="../../../search/search.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="Search Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Search</h4>
+            </div>
+            <div class="modal-body">
+                <p>
+                    From here you can search these documents. Enter
+                    your search terms below.
+                </p>
+                <form role="form">
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Search..." id="mkdocs-search-query">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="Keyboard Shortcuts Modal" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                <h4 class="modal-title" id="exampleModalLabel">Keyboard Shortcuts</h4>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>&larr;</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>&rarr;</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+
+    </body>
+</html>
