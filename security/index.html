@@ -137,6 +137,7 @@
             <li><a href="#network-security">Network security</a></li>
             <li><a href="#patient-data-security-and-liability">Patient data security and liability</a></li>
         <li class="main "><a href="#error-handling">Error handling</a></li>
+            <li><a href="#error-types">Error types</a></li>
             <li><a href="#retrying-requests">Retrying requests</a></li>
     </ul>
 </div></div>
@@ -172,7 +173,7 @@
 <p>Example:</p>
 <pre><code class="json">{
   &quot;statusCode&quot;: 400,
-  &quot;message&quot;: &quot;Validation error: QuestionnaireResponse did not validate against Questionnaire.&quot;,
+  &quot;message&quot;: &quot;Validation error: QuestionnaireResponse did not validate against Questionnaire: [more info]&quot;,
   &quot;code&quot;: 'validation',
 }
 </code></pre>
@@ -180,12 +181,14 @@
 <ul>
 <li><code>statusCode</code>: The same numerical HTTP error code as in the HTTP headers.</li>
 <li><code>message</code>: A human-readable error message.</li>
-<li><code>code</code> (<strong>optional</strong>): A short string describing special error types, for errors with a definite meaning to the caller. Is not necessarily present in all error messages. The types at the moment are:<ul>
+<li><code>code</code> (<strong>optional</strong>): A short string describing special error types, for errors with a definite meaning to the caller. Is not necessarily present in all error messages. The available types are found below.</li>
+</ul>
+<h2 id="error-types">Error types</h2>
+<p>In addition to the HTTP status code, some errors may have a more specific type attached to it. The current list of types is:</p>
+<ul>
 <li><code>validation</code>: The user sent a request that failed validation in some way.</li>
 <li><code>questionnaire-deprecated</code>: The entire questionnaire has been removed from production and should not be used.</li>
 <li><code>questionnaire-version-deprecated</code>: This specific version of the questionnaire has been removed from production, please use a newer version.</li>
-</ul>
-</li>
 </ul>
 <h2 id="retrying-requests">Retrying requests</h2>
 <p>As a general rule of thumb, 4xx errors require some action on the calling side, while 5xx errors are server-side. For 5xx errors, especially HTTP error 503 (service busy/unavailable), it is prudent to retry the request after a short wait, in case the error is transient in nature.</p></div>

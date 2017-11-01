@@ -160,7 +160,7 @@
 <li>In <code>prefetch</code> (or <code>context</code>), most of the FHIR search strings return a Bundle, not an individual resource (like QuestionnaireResponse). However, EBMeDS supports returning an individual resource instead of a Bundle of length one. Bundles will be required in the future.</li>
 </ul>
 <h2 id="cds-hooks-rest-api">CDS hooks REST API</h2>
-<p>The REST API for CDS hooks is very simple. One can <code>GET</code> the list of available hooks (the "hook catalog") from <code>[base-url]/cds-services</code>, and one calls a hook by <code>POST</code>ing to <code>[base-url]/cds-services/[hook-name]</code>. The base URL depends on where and how EBMeDS is installed: one example is <code>https://ebmedscloud.org</code>.</p>
+<p>The REST API for CDS hooks is very simple. One can <code>GET</code> the list of available hooks (the "hook catalog") from <code>[base-url]/cds-services</code>, and one calls a hook by <code>POST</code>ing to <code>[base-url]/cds-services/[hook-name]</code>. The base URL depends on where and how EBMeDS is installed: one example is <code>https://ebmedscloud.org/api/fhir/v1</code>.</p>
 <h2 id="hook-description-format">Hook description format</h2>
 <p>We will continue with the <code>questionnaire-completed</code> example mentioned briefly above. The EBMeDS hook catalog specifies this kind of hook:</p>
 <pre><code class="json">{
@@ -176,7 +176,7 @@
 
 <p>So what does this mean? Let's go through the hook description field by field:</p>
 <ul>
-<li><code>id</code>: Again, the main identifier for the hook in question. This field determines the URL used when calling the hook, e.g. <code>https://ebmedscloud.org/cds-services/selfcare-filled-questionnaire</code>. At the same time, the <code>id</code> provides the most high level context for this hook. The value is unique.</li>
+<li><code>id</code>: Again, the main identifier for the hook in question. This field determines the URL used when calling the hook, e.g. <code>https://ebmedscloud.org/api/fhir/v1/cds-services/selfcare-filled-questionnaire</code>. At the same time, the <code>id</code> provides the most high level context for this hook. The value is unique.</li>
 <li><code>hook</code>: The action or event that triggers this hook. The <code>hook</code> value is not unique, there may be many different CDS hooks (at different REST endpoints i.e. with a different <code>id</code>) that all have the same <code>hook</code> value. The idea is to develop a standardized set of hooks that behave the same in any CDS system. In this case, <code>questionnaire-completed</code> is a non-standard hook, specific to EBMeDS.</li>
 <li><code>name</code>: A short description of the hook.</li>
 <li><code>description</code>: A longer description of the hook.</li>

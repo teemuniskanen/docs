@@ -133,11 +133,46 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
+        <li class="main active"><a href="#custom-rest-api">Custom REST API</a></li>
+            <li><a href="#coaching">Coaching</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-</div>
+<h1 id="custom-rest-api">Custom REST API</h1>
+<p>EBMeDS 2.0 is not a full-blown FHIR server, but we do provide a REST interface for getting some of our static FHIR resources via HTTP.</p>
+<h2 id="coaching">Coaching</h2>
+<ul>
+<li>URL: <code>[base-url]/coaching</code></li>
+<li>Resource: <a href="../resources/#coachingplandefinition">CoachingPlanDefinition</a></li>
+</ul>
+<p>The CoachingPlanDefinition is a resource containing a set of messages that are sent to the user at specific intervals. There are coaching programs for a number of different topics, for example:</p>
+<ul>
+<li>Reduction of alcohol consumption</li>
+<li>Step exercise programme</li>
+<li>Good deeds</li>
+<li>Coaching programme for families with children</li>
+<li>Gratitude</li>
+<li>Optimism</li>
+<li>Positive interaction in couple relationship</li>
+<li>Resolving conflicts in a relationship</li>
+<li>Coachingprogrammet Konflikthantering</li>
+<li>Exercise programme three hours a week</li>
+<li>Exercise programme four hours a week</li>
+<li>Exercise programme five hours a week</li>
+<li>Exercise programme more than seven hours a week</li>
+<li>Exercise programme for diabetes patients</li>
+<li>Exercise programme for persons with musculoskeletal problems</li>
+<li>Coaching program for asthmatics</li>
+<li>Weight management</li>
+<li>Healthy nutrition programme</li>
+<li>Coaching program "Stress management"</li>
+<li>Preparing to quit smoking</li>
+<li>Quitting smoking</li>
+<li>Sleep coaching</li>
+</ul>
+<p>A list of available programs are available at the address <code>[base-url]/coaching/programs</code> and the individual programs can be accessed at <code>[base-url]/coaching/programs/[id]</code>. So for example, on ebmedscloud.org, a coaching program can be retrieved by doing a HTTP GET on the URL <code>https://ebmedscloud.org/api/fhir/v1/coaching/programs/5</code>.</p>
+<p>The format of the CoachingPlanDefinition is described in more detail in the EBMeDS 2.0 <a href="../resources/#coachingplandefinition">FHIR resources listing</a>.</p></div>
         </div>
 
         <footer class="col-md-12">
