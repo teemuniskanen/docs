@@ -201,6 +201,10 @@ The fields in `item` are as follows.
 * `type` (string): One of `'decimal'`, `'boolean'`, `'string'`, `'integer'`, `'decimal'`, `'date'`, `'dateTime'`, '`choice`' for actual questions. We also have the special types `'group'` (that only contains other items) and `'display'` which is used to show some informative text and/or subtitles (in markdown). See section "Question types" below.
 * `enableWhen` (array of objects): A list of criteria for when this question should be visible to the user. Each criterium in the list is connected to the other by boolean OR operators by default, with AND operators being implemented by an extension. See the section "Questionnaire extensions".
 
+### Questionnaire extensions
+
+See the [extensions page](extensions.md).
+
 ## SelfCareQuestionnaireResponse
 
 *Inherits from*: [QuestionnaireResponse](https://www.hl7.org/fhir/questionnaireresponse.html)
