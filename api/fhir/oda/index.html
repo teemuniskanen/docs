@@ -133,27 +133,35 @@
         <div class="container">
                 <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="main active"><a href="#questionnaire">Questionnaire</a></li>
+        <li class="main active"><a href="#oda-project-specific-customization">ODA project-specific customization</a></li>
+            <li><a href="#selfcarequestionnaire-fhir-resource">SelfCareQuestionnaire FHIR resource</a></li>
+            <li><a href="#selfcarequestionnaire-push">SelfCareQuestionnaire push</a></li>
     </ul>
 </div></div>
                 <div class="col-md-9" role="main">
 
-<h2 id="questionnaire">Questionnaire</h2>
-<p>"meta":{
-    "profile":[
-      "http://phr.kanta.fi/StructureDefinition/fiphr-questionnaire-stu3"
-    ],
-    "tag":[
-      {
-        "system":"http://oda.fi/Questionnaire",
-        "code":"symptom"
-      },
-      {
-        "system":"http://oda.fi/cds",
-        "code":"oda1"
-      }
-    ]
-  }</p></div>
+<h1 id="oda-project-specific-customization">ODA project-specific customization</h1>
+<h2 id="selfcarequestionnaire-fhir-resource">SelfCareQuestionnaire FHIR resource</h2>
+<p>In the <code>selfcare-*</code> CDS hooks, the following metadata is included (by request from the ODA project) in the SelfCareQuestionnaire resource:</p>
+<pre><code class="json">&quot;meta&quot;:{
+  &quot;profile&quot;:[
+    &quot;http://phr.kanta.fi/StructureDefinition/fiphr-questionnaire-stu3&quot;
+  ],
+  &quot;tag&quot;:[
+    {
+      &quot;system&quot;:&quot;http://oda.fi/Questionnaire&quot;,
+      &quot;code&quot;:&quot;symptom&quot;
+    },
+    {
+      &quot;system&quot;:&quot;http://oda.fi/cds&quot;,
+      &quot;code&quot;:&quot;oda1&quot;
+    }
+  ]
+}
+</code></pre>
+
+<h2 id="selfcarequestionnaire-push">SelfCareQuestionnaire push</h2>
+<p>When new questionnaires (or versions of questionnaires) are available for use in the self-care context, they are pushed to a server specified by the ODA project.</p></div>
         </div>
 
         <footer class="col-md-12">
