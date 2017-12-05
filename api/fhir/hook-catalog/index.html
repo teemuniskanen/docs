@@ -159,7 +159,7 @@
 </li>
 </ul>
 <h3 id="versioning-info">Versioning info</h3>
-<p>The version of the Questionnaire resource is tightly bound to the version of the ruleset used in EBMeDS to analyze the QuestionnaireResponse. Therefore the Questionnaire version (along with the Questionnaire ID itself) must be specified in the QuestionnaireResponse. The Questionnaire resource contains the <code>Questionnaire.url</code> field which is globally unique. That URL shall be included in the QuestionnaireResponse in the <code>QuestionnaireResponse.questionnaire.url</code> field, which gives EBMeDS enough info to infer the version information.</p>
+<p>The version of the Questionnaire resource is tightly bound to the version of the ruleset used in EBMeDS to analyze the QuestionnaireResponse. Therefore the Questionnaire version (along with the Questionnaire ID itself) must be specified in the QuestionnaireResponse. The Questionnaire resource contains the <code>Questionnaire.url</code> field which is globally unique. That URL shall be included in the QuestionnaireResponse in the <code>QuestionnaireResponse.questionnaire.reference</code> field, which gives EBMeDS enough info to infer the version information.</p>
 <p>Note that old Questionnaire versions will not be supported indefinitely, and it is strongly recommended to always use the latest available questionnaire version for a given questionnaire. It is up to the calling party to make sure that the newest version is in use, information about new releases are provided by Duodecim using a mechanism agreed upon with the customer.</p>
 <h3 id="service-description">Service description</h3>
 <pre><code class="json">{
