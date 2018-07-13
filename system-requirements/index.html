@@ -7,7 +7,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">  
     <link rel="shortcut icon" href="../img/favicon.ico">
 
-    <title>Components - EBMeDS 2.0</title>
+    <title>System requirements - EBMeDS 2.0</title>
 
     <link href="../css/bootstrap-custom.min.css" rel="stylesheet">
     <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
@@ -74,14 +74,14 @@
                         <ul class="dropdown-menu">
                         
                             
-<li >
-    <a href="../system-requirements/">System requirements</a>
+<li class="active">
+    <a href="./">System requirements</a>
 </li>
 
                         
                             
-<li class="active">
-    <a href="./">Components</a>
+<li >
+    <a href="../components/">Components</a>
 </li>
 
                         
@@ -188,12 +188,12 @@
                         </a>
                     </li>
                     <li >
-                        <a rel="next" href="../system-requirements/">
+                        <a rel="next" href="..">
                             <i class="fa fa-arrow-left"></i> Previous
                         </a>
                     </li>
                     <li >
-                        <a rel="prev" href="../installation/">
+                        <a rel="prev" href="../components/">
                             Next <i class="fa fa-arrow-right"></i>
                         </a>
                     </li>
@@ -206,105 +206,79 @@
         
         <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="first-level active"><a href="#components">Components</a></li>
-            <li class="second-level"><a href="#api-gateway">api-gateway</a></li>
+        <li class="first-level active"><a href="#system-requirements">System requirements</a></li>
+            <li class="second-level"><a href="#reference-deployment-instructions">Reference deployment instructions</a></li>
                 
-            <li class="second-level"><a href="#engine">engine</a></li>
+            <li class="second-level"><a href="#example-single-node-server">Example single-node server</a></li>
                 
-            <li class="second-level"><a href="#coaching">coaching</a></li>
+            <li class="second-level"><a href="#software-requirements">Software requirements</a></li>
                 
-            <li class="second-level"><a href="#diagnosis-specific-view">diagnosis-specific-view</a></li>
+                <li class="third-level"><a href="#docker">Docker</a></li>
+                <li class="third-level"><a href="#operating-system">Operating system</a></li>
+                <li class="third-level"><a href="#elasticsearch">Elasticsearch</a></li>
+            <li class="second-level"><a href="#hardware-requirements">Hardware requirements</a></li>
                 
-            <li class="second-level"><a href="#comprehensive-medication-review">comprehensive-medication-review</a></li>
-                
-            <li class="second-level"><a href="#elasticsearch">elasticsearch</a></li>
-                
-                <li class="third-level"><a href="#indices">Indices</a></li>
-            <li class="second-level"><a href="#logstash">logstash</a></li>
-                
-            <li class="second-level"><a href="#kibana">kibana</a></li>
-                
-        <li class="first-level "><a href="#supporting-tools">Supporting tools</a></li>
-            <li class="second-level"><a href="#script-editor">Script editor</a></li>
-                
-                <li class="third-level"><a href="#compilation">Compilation</a></li>
+                <li class="third-level"><a href="#cpu">CPU</a></li>
+                <li class="third-level"><a href="#ram">RAM</a></li>
+                <li class="third-level"><a href="#disk-space">Disk space:</a></li>
     </ul>
 </div></div>
         <div class="col-md-9" role="main">
 
-<h1 id="components">Components</h1>
-<p><img alt="EBMeDS architecture" src="../images/EBMeDS-architecture.png" /></p>
-<p>When fully deployed, the EBMeDS solution includes the components pictured above. Each component is a Docker container, inside a Docker Swarm. Any of these components can be replicated across several machines, as performance and availability needs dictate. Docker Swarm performs an automatic round-robin load balancing on every network request done to any container with multiple instances.</p>
-<h2 id="api-gateway">api-gateway</h2>
-<p>Github: <a href="https://github.com/ebmeds/api-gateway"></a></p>
-<p>The API gateway is the access point from the outside world. It mostly acts as a request broker, forwarding requests to the appropriate containers, usually the engine. At the moment, it also provides the translation services between FHIR and the EBMeDS native XML format. Another output option is a custom JSON format used by some EBMeDS-connected apps.</p>
+<h1 id="system-requirements">System requirements</h1>
+<p>EBMeDS is a collection of services delivered as Docker containers. The system consists of the core EBMeDS services which are stateless, and auxiliary services such as databases for storing settings and logs. Docker was chosen to provide a standardized way of scaling up the solution. The solution is designed to be run in large, multi-node clusters but can be deployed on single servers as well.</p>
+<h2 id="reference-deployment-instructions">Reference deployment instructions</h2>
+<p>Docker containers are highly portable and can be deployed in numerous ways. For inexperienced Docker system administrators, Duodecim provides instructions for a small reference installation with sensible defaults. These instructions are in the Github repository <a href="https://github.com/ebmeds/ebmeds-docker">ebmeds-docker</a>.</p>
+<h2 id="example-single-node-server">Example single-node server</h2>
+<p>If you are in a hurry and don't want to read the details below, here is a server configuration that should work for a small installation where no clustering is needed:</p>
 <ul>
-<li>
-<p>Input: FHIR requests, EBMeDS XML requests.</p>
-</li>
-<li>
-<p>Output: FHIR, EBMeDS XML, custom JSON formats.</p>
-</li>
+<li>CPU: 2 x Intel i5-7600</li>
+<li>RAM: 8 GB</li>
+<li>Disk space: 256 GB</li>
+<li>OS: CentOS 7.4 (with latest patches)</li>
+<li>Docker: version 18.03.1-ce</li>
 </ul>
-<h2 id="engine">engine</h2>
-<p>The main service, performing most of the calculations when performing decision support. Takes patient XML data as an input, and outputs data to aid in clinical decision making. Most notably, text-based reminder messages. Also produces</p>
+<h2 id="software-requirements">Software requirements</h2>
+<h3 id="docker">Docker</h3>
+<p>The minimum requirement is Docker 1.13, but we recommend always using the latest stable version, especially in multi-node clusters. Most Linux distributions have a mechanism for installing Docker straight from Docker Inc's own repositories, which is the recommended way.</p>
+<p>Docker comes in the free Community Edition (CE) and the paid-for Enterprise Edition (EE). EBMeDS runs on both, although inexperienced Docker admins may find the support channel for Enterprise Edition helpful.</p>
+<h3 id="operating-system">Operating system</h3>
+<p>EBMeDS requires Linux. Any of the Linux distributions with the official <em>Licensed Docker Infrastructure</em> mark works well, meaning either CentOS, Fedora, Debian or Ubuntu. Please see the <a href="https://docs.docker.com/install/#server">Docker documentation</a> for more details about specific versions and caveats.</p>
+<p>Docker also runs natively on Windows, but note that so-called <em>Windows containers</em> are not supported. If you want to run EBMeDS on Windows, you must run Linux in a virtual machine.</p>
+<h3 id="elasticsearch">Elasticsearch</h3>
+<p>The Elasticsearch database is an auxiliary service that is:</p>
 <ul>
-<li>
-<p>Input: EBMeDS XML</p>
-</li>
-<li>
-<p>Output: EBMeDS XML, custom JSON formats</p>
-</li>
+<li>An <strong>optional</strong> location to store application logs</li>
+<li>A <strong>mandatory</strong> location for storing <em>EBMeDS Population</em> data</li>
 </ul>
-<h2 id="coaching">coaching</h2>
-<p>An ODA-specific container, may or may not be present in the future. A simple REST interface providing access to coaching programs produced by Duodecim. These programs are given in FHIR STU3 form, and contain a number of messages that are to be sent to a patient at set times to aid in e.g. weight loss, cutting down on alcohol consumtion etc.</p>
+<p>In the reference installation, Elasticsearch is also run as a Docker container inside Docker Swarm, alongside the EBMeDS core services. However, Elasticsearch can also be installed more "traditionally", either on the same server or on a separate one. This may be an attractive option if you have an existing Elasticsearch installation available. Clustering is also easier to handle outside the Docker Swarm for high availability setups.</p>
+<p>EBMeDS requires the 6.2.x version of Elasticsearch. See <a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.2/index.html">the Elasticsearch documentation</a> for more details on operation and installation.</p>
+<p>As mentioned, Elasticsearch is optional for storing application logs. In the reference installation, logs are stored here. But all the application logs are routed through <a href="https://www.elastic.co/products/logstash">Logstash</a>, which can be configured to store the data <a href="https://www.elastic.co/guide/en/logstash/6.2/output-plugins.html">in a multitude of ways</a>, including as plain files on disk.</p>
+<p>For population analysis, Elasticsearch (and Kibana) is still mandatory.</p>
+<h2 id="hardware-requirements">Hardware requirements</h2>
+<p>The hardware requirements of course rely on the scale of the installation. Below, we have listed recommendations for a single cluster node (or just a single server) when Elasticsearch is used, as per the reference installation. Should Elasticsearch be irrelevant for you, the changes in hardware requirements are noted separately below.</p>
+<h3 id="cpu">CPU</h3>
+<p>Any modern multicore x86_64 CPU is accepted. For performance, multiple cores are more important than higher clock rates.</p>
 <ul>
-<li>
-<p>Input: HTTP REST requests.</p>
-</li>
-<li>
-<p>Output: FHIR</p>
-</li>
+<li>Minimum requirement: <strong>8 cores, ~3 GHz</strong>. <em>Example</em>: 2 x Intel i5-7600 (2 x 4 cores)</li>
+<li>Recommended: <strong>16 cores, ~3 GHz</strong>. <em>Example</em>: 2 x Intel i7-7820X (2 x 8 cores)</li>
 </ul>
-<h2 id="diagnosis-specific-view">diagnosis-specific-view</h2>
-<p>A UI providing a specialised view of the results obtained from the engine, for a specific patient. This container works like a kind of proxy to the engine: instead of sending the XML with patient data to the engine, it is sent to this container. The request is sent onward to the engine with some special flags, making the engine produce a specialised JSON format, that this container renders as HTML for the user. The JSON can also be sent directly to the user, should he want to build his own UI.</p>
+<h3 id="ram">RAM</h3>
 <ul>
-<li>
-<p>Input: EBMeDS XML</p>
-</li>
-<li>
-<p>Output: HTML</p>
-</li>
+<li>Minimum requirement: 8 GB (4 GB without Elasticsearch)</li>
+<li>Recommended: 16 GB (8 GB without Elasticsearch)</li>
 </ul>
-<h2 id="comprehensive-medication-review">comprehensive-medication-review</h2>
-<p>Similar to diagnosis-specific-view, this is another specialised UI view, focusing on medication.</p>
+<h3 id="disk-space">Disk space:</h3>
+<p>The main things that take up disk space are:</p>
 <ul>
-<li>
-<p>Input: EBMeDS XML</p>
-</li>
-<li>
-<p>Output: HTML</p>
-</li>
+<li>Database contents, i.e. logs and population analysis data</li>
+<li>Docker images, old versions can be saved and rollbacks performed if wanted.</li>
 </ul>
-<h2 id="elasticsearch">elasticsearch</h2>
-<p>A standard Elasticsearch container, i.e. a database. Used for logging by all other containers (via logstash). Also, the engine saves request/response pairs to a separate index for debugging and statistics.</p>
-<h3 id="indices">Indices</h3>
+<p>If Elasticsearch is used, there should be a monitoring and archiving strategy for the data. Of course, this goes for any kind of logging solution.</p>
 <ul>
-<li><code>logstash-*</code>: app logs from all other containers</li>
-<li><code>engine-*</code>: request/response messages</li>
-</ul>
-<h2 id="logstash">logstash</h2>
-<p>A standard Logstash container. Logs from all other containers are sent here, where they are queued and tagged with some extra metadata.</p>
-<h2 id="kibana">kibana</h2>
-<p>A standard Kibana container. Kibana works as a web UI for inspecting logs or any other elasticsearch data. At the moment Kibana in EBMeDS is only geared towards use by system administrators and developers, but there is some demand for users to be able to access their own logs. It should be noted that with standard settings, Elasticsearch and Kibana have no user or namespace support, everything is global. This can be changed by getting an X-Pack license, which is costly.</p>
-<h1 id="supporting-tools">Supporting tools</h1>
-<p>There are a number of tools external to the EBMeDS deployment that is used primarily by Duodecim to produce content. These are hosted by Duodecim.</p>
-<h2 id="script-editor">Script editor</h2>
-<p>URL: <a href="http://www.ebmeds.org/script_editor.asp?mode=framesets"></a></p>
-<p>Web-based UI for editing engine scripts (i.e. rulesets). Individual scripts can be set to apply to e.g. certain organizations, certain countries/languages or certain events. The text reminders are also defined here, as well as their translations.</p>
-<p>This script editor will be replaced by a new version soon.</p>
-<h3 id="compilation">Compilation</h3>
-<p>The scripts and their accompanying data is compiled from the script editor into text files that can be read by the engine. This compilation process also includes "numerical" medical data, i.e. databases of drug interactions etc. Some of this data is bought from other companies, some of it is produced in-house.</p></div>
+<li>Minimum requirement: 256 GB (128 GB without Elasticsearch)</li>
+<li>Recommended: 512 GB (128 GB without Elasticsearch)</li>
+</ul></div>
         
     </div>
 
