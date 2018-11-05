@@ -226,7 +226,7 @@
         <div class="col-md-9" role="main">
 
 <h1 id="system-requirements">System requirements</h1>
-<p>EBMeDS is a collection of services delivered as Docker containers. The system consists of the core EBMeDS services which are stateless, and auxiliary services such as databases for storing settings and logs. Docker was chosen to provide a standardized way of scaling up the solution. The solution is designed to be run in large, multi-node clusters but can be deployed on single servers as well.</p>
+<p>EBMEDS is a collection of services delivered as Docker containers. The system consists of the core EBMEDS services which are stateless, and auxiliary services such as databases for storing settings and logs. Docker was chosen to provide a standardized way of scaling up the solution. The solution is designed to be run in large, multi-node clusters but can be deployed on single servers as well.</p>
 <h2 id="reference-deployment-instructions">Reference deployment instructions</h2>
 <p>Docker containers are highly portable and can be deployed in numerous ways. For inexperienced Docker system administrators, Duodecim provides instructions for a small reference installation with sensible defaults. These instructions are in the Github repository <a href="https://github.com/ebmeds/ebmeds-docker">ebmeds-docker</a>.</p>
 <h2 id="example-single-node-server">Example single-node server</h2>
@@ -241,18 +241,18 @@
 <h2 id="software-requirements">Software requirements</h2>
 <h3 id="docker">Docker</h3>
 <p>The minimum requirement is Docker 1.13, but we recommend always using the latest stable version, especially in multi-node clusters. Most Linux distributions have a mechanism for installing Docker straight from Docker Inc's own repositories, which is the recommended way.</p>
-<p>Docker comes in the free Community Edition (CE) and the paid-for Enterprise Edition (EE). EBMeDS runs on both, although inexperienced Docker admins may find the support channel for Enterprise Edition helpful.</p>
+<p>Docker comes in the free Community Edition (CE) and the paid-for Enterprise Edition (EE). EBMEDS runs on both, although inexperienced Docker admins may find the support channel for Enterprise Edition helpful.</p>
 <h3 id="operating-system">Operating system</h3>
-<p>EBMeDS requires Linux. Any of the Linux distributions with the official <em>Licensed Docker Infrastructure</em> mark works well, meaning either CentOS, Fedora, Debian or Ubuntu. Please see the <a href="https://docs.docker.com/install/#server">Docker documentation</a> for more details about specific versions and caveats.</p>
-<p>Docker also runs natively on Windows, but note that so-called <em>Windows containers</em> are not supported. If you want to run EBMeDS on Windows, you must run Linux in a virtual machine.</p>
+<p>EBMEDS requires Linux. Any of the Linux distributions with the official <em>Licensed Docker Infrastructure</em> mark works well, meaning either CentOS, Fedora, Debian or Ubuntu. Please see the <a href="https://docs.docker.com/install/#server">Docker documentation</a> for more details about specific versions and caveats.</p>
+<p>Docker also runs natively on Windows, but note that so-called <em>Windows containers</em> are not supported. If you want to run EBMEDS on Windows, you must run Linux in a virtual machine.</p>
 <h3 id="elasticsearch">Elasticsearch</h3>
 <p>The Elasticsearch database is an auxiliary service that is:</p>
 <ul>
 <li>An <strong>optional</strong> location to store application logs</li>
-<li>A <strong>mandatory</strong> location for storing <em>EBMeDS Population</em> data</li>
+<li>A <strong>mandatory</strong> location for storing <em>EBMEDS Population</em> data</li>
 </ul>
-<p>In the reference installation, Elasticsearch is also run as a Docker container inside Docker Swarm, alongside the EBMeDS core services. However, Elasticsearch can also be installed more "traditionally", either on the same server or on a separate one. This may be an attractive option if you have an existing Elasticsearch installation available. Clustering is also easier to handle outside the Docker Swarm for high availability setups.</p>
-<p>EBMeDS requires the 6.2.x version of Elasticsearch. See <a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.2/index.html">the Elasticsearch documentation</a> for more details on operation and installation.</p>
+<p>In the reference installation, Elasticsearch is also run as a Docker container inside Docker Swarm, alongside the EBMEDS core services. However, Elasticsearch can also be installed more "traditionally", either on the same server or on a separate one. This may be an attractive option if you have an existing Elasticsearch installation available. Clustering is also easier to handle outside the Docker Swarm for high availability setups.</p>
+<p>EBMEDS requires the 6.2.x version of Elasticsearch. See <a href="https://www.elastic.co/guide/en/elasticsearch/reference/6.2/index.html">the Elasticsearch documentation</a> for more details on operation and installation.</p>
 <p>As mentioned, Elasticsearch is optional for storing application logs. In the reference installation, logs are stored here. But all the application logs are routed through <a href="https://www.elastic.co/products/logstash">Logstash</a>, which can be configured to store the data <a href="https://www.elastic.co/guide/en/logstash/6.2/output-plugins.html">in a multitude of ways</a>, including as plain files on disk.</p>
 <p>For population analysis, Elasticsearch (and Kibana) is still mandatory.</p>
 <h2 id="hardware-requirements">Hardware requirements</h2>

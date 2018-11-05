@@ -252,32 +252,34 @@
 <p>Question with <code>type: 'display'</code> require a few more subcategories, which is the purpose of this HL7 extension. The allowed values are:</p>
 <ul>
 <li><code>subtitle</code>: As the name implies, a string designed to be a subtitle. The <code>text</code> field in this question is also styled with a markdown-style subtitle tag (<code># Example subtitle</code>).</li>
-<li><code>feedback</code>: Answering a set of questions in a certain way may provoke some immediate feedback in the questionnaire itself, without having to send the QuestionnaireResponse to EBMeDS. This display-type question contains this kind of feedback.</li>
+<li><code>feedback</code>: Answering a set of questions in a certain way may provoke some immediate feedback in the questionnaire itself, without having to send the QuestionnaireResponse to EBMEDS. This display-type question contains this kind of feedback.</li>
 <li><code>terminus</code>: This is similar to <code>feedback</code>, except that if the user has answered questions that produce this type of feedback, the situation is so critical that he should be stopped from answering any more questions, and immediately seek help. The UI should hide the questions following this feedback type, if it is visible.</li>
 </ul>
 <p>Example:</p>
-<pre><code class="json">{
-  &quot;linkId&quot;:&quot;14&quot;,
-  &quot;text&quot;:&quot;# A subtitle&quot;,
-  &quot;type&quot;:&quot;display&quot;,
-  &quot;extension&quot;:[
-    {
-      &quot;url&quot;:&quot;http://hl7.org/fhir/StructureDefinition/questionnaire-displayCategory&quot;,
-      &quot;valueString&quot;:&quot;subtitle&quot;
-    }
-  ]
-}
-{
-  &quot;linkId&quot;:&quot;15&quot;,
-  &quot;text&quot;:&quot;Things are really bad.&quot;,
-  &quot;type&quot;:&quot;display&quot;,
-  &quot;extension&quot;:[
-    {
-      &quot;url&quot;:&quot;http://hl7.org/fhir/StructureDefinition/questionnaire-displayCategory&quot;,
-      &quot;valueString&quot;:&quot;terminus&quot;
-    }
-  ]
-}
+<pre><code class="json">[
+  {
+    &quot;linkId&quot;:&quot;14&quot;,
+    &quot;text&quot;:&quot;# A subtitle&quot;,
+    &quot;type&quot;:&quot;display&quot;,
+    &quot;extension&quot;:[
+      {
+        &quot;url&quot;:&quot;http://hl7.org/fhir/StructureDefinition/questionnaire-displayCategory&quot;,
+        &quot;valueString&quot;:&quot;subtitle&quot;
+      }
+    ]
+  },
+  {
+    &quot;linkId&quot;:&quot;15&quot;,
+    &quot;text&quot;:&quot;Things are really bad.&quot;,
+    &quot;type&quot;:&quot;display&quot;,
+    &quot;extension&quot;:[
+      {
+        &quot;url&quot;:&quot;http://hl7.org/fhir/StructureDefinition/questionnaire-displayCategory&quot;,
+        &quot;valueString&quot;:&quot;terminus&quot;
+      }
+    ]
+  }
+]
 </code></pre>
 
 <h2 id="minvalue">minValue</h2>
@@ -331,7 +333,7 @@
 <pre><code class="json">{
   &quot;valueCoding&quot;:{
     &quot;id&quot;: &quot;-1&quot;,
-    &quot;display&quot;: &quot;None of the above&quot;
+    &quot;display&quot;: &quot;None of the above&quot;,
     &quot;extension&quot;: [
       {
         &quot;url&quot;: &quot;http://hl7.org/fhir/StructureDefinition/questionnaire-optionExclusive&quot;,

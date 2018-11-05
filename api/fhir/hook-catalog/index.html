@@ -206,7 +206,7 @@
         
         <div class="col-md-3"><div class="bs-sidebar hidden-print affix well" role="complementary">
     <ul class="nav bs-sidenav">
-        <li class="first-level active"><a href="#ebmeds-hook-catalog">EBMeDS Hook Catalog</a></li>
+        <li class="first-level active"><a href="#ebmeds-hook-catalog">EBMEDS Hook Catalog</a></li>
             <li class="second-level"><a href="#selfcare-filled-questionnaire">/selfcare-filled-questionnaire</a></li>
                 
                 <li class="third-level"><a href="#used-fhir-resources">Used FHIR resources</a></li>
@@ -224,12 +224,12 @@
 </div></div>
         <div class="col-md-9" role="main">
 
-<h1 id="ebmeds-hook-catalog">EBMeDS Hook Catalog</h1>
+<h1 id="ebmeds-hook-catalog">EBMEDS Hook Catalog</h1>
 <p>Below we list the available CDS hook endpoints, i.e. the REST endpoints at <code>[base-url]/cds-services/[endpoint]</code>.</p>
 <p><strong>Note</strong>: the FHIR resources to be included in the request are listed (per the CDS hooks standard) as FHIR search strings. However, there is sometimes not enough granularity available in FHIR STU3 searches to specify exactly what is needed. Be aware of this when reading the service descriptions below.</p>
 <h2 id="selfcare-filled-questionnaire">/selfcare-filled-questionnaire</h2>
 <p><em>Hook: 'questionnaire-completed'</em></p>
-<p>This hook is intended for the self-care context, where an individual (either by himself or with the assistance of a healthcare professional) fills in a form related to his or her health. This might be a questionnaire about the person's symptoms, a questionnaire calculating lifestyle-related health risks, etc. The responses are encoded into a FHIR QuestionnaireResponse. EBMeDS responds with ActivityDefinitions that include coded actions available for the individual, e.g. the reservation of a time for a lab test, visit to the doctor, etc. A special ActivityDefinition is provided containing reminder texts, instead of the texts being in the CDS hook cards.</p>
+<p>This hook is intended for the self-care context, where an individual (either by himself or with the assistance of a healthcare professional) fills in a form related to his or her health. This might be a questionnaire about the person's symptoms, a questionnaire calculating lifestyle-related health risks, etc. The responses are encoded into a FHIR QuestionnaireResponse. EBMEDS responds with ActivityDefinitions that include coded actions available for the individual, e.g. the reservation of a time for a lab test, visit to the doctor, etc. A special ActivityDefinition is provided containing reminder texts, instead of the texts being in the CDS hook cards.</p>
 <h3 id="used-fhir-resources">Used FHIR resources</h3>
 <ul>
 <li>Request<ul>
@@ -244,14 +244,14 @@
 </li>
 </ul>
 <h3 id="versioning-info">Versioning info</h3>
-<p>The version of the Questionnaire resource is tightly bound to the version of the ruleset used in EBMeDS to analyze the QuestionnaireResponse. Therefore the Questionnaire version (along with the Questionnaire ID itself) must be specified in the QuestionnaireResponse. The Questionnaire resource contains the <code>Questionnaire.url</code> field which is globally unique. That URL shall be included in the QuestionnaireResponse in the <code>QuestionnaireResponse.questionnaire.reference</code> field, which gives EBMeDS enough info to infer the version information.</p>
+<p>The version of the Questionnaire resource is tightly bound to the version of the ruleset used in EBMEDS to analyze the QuestionnaireResponse. Therefore the Questionnaire version (along with the Questionnaire ID itself) must be specified in the QuestionnaireResponse. The Questionnaire resource contains the <code>Questionnaire.url</code> field which is globally unique. That URL shall be included in the QuestionnaireResponse in the <code>QuestionnaireResponse.questionnaire.reference</code> field, which gives EBMEDS enough info to infer the version information.</p>
 <p>Note that old Questionnaire versions will not be supported indefinitely, and it is strongly recommended to always use the latest available questionnaire version for a given questionnaire. It is up to the calling party to make sure that the newest version is in use, information about new releases are provided by Duodecim using a mechanism agreed upon with the customer.</p>
 <h3 id="service-description">Service description</h3>
 <pre><code class="json">{
   &quot;id&quot;: &quot;selfcare-filled-questionnaire&quot;,
   &quot;hook&quot;: &quot;questionnaire-completed&quot;,
   &quot;name&quot;: &quot;Self-care questionnaire analysis service&quot;,
-  &quot;description&quot;: &quot;A hook for when a FHIR QuestionnaireResponse filled out by a patient/citizen is available for EBMeDS to process. The response may include directions both for the patient himself, and a medical professional.&quot;,
+  &quot;description&quot;: &quot;A hook for when a FHIR QuestionnaireResponse filled out by a patient/citizen is available for EBMEDS to process. The response may include directions both for the patient himself, and a medical professional.&quot;,
   &quot;prefetch&quot;: {
     &quot;questionnaireResponse&quot;: &quot;/QuestionnaireResponse?patient={{Patient.id}}&quot;
   }
@@ -456,7 +456,7 @@
       &quot;summary&quot;: &quot;Selfcare action suggestions&quot;,
       &quot;indicator&quot;: &quot;info&quot;,
       &quot;source&quot;: {
-        &quot;name&quot;: &quot;EBMeDS v2.0.6&quot;,
+        &quot;name&quot;: &quot;EBMEDS v2.0.6&quot;,
         &quot;url&quot;: &quot;https://ebmeds.org/version/v2.0.6/data-version/v0.9.2&quot;
       },
       &quot;suggestions&quot;: [
@@ -505,7 +505,7 @@
               &quot;coding&quot;: [
                 {
                   &quot;system&quot;: &quot;https://duodecim.fi/fhir/stu3/CodeSystem/reminder-id&quot;,
-                  &quot;code&quot;: &quot;46bea5c0-c18e-4e78-a20c-06974bae60f7&quot;,
+                  &quot;code&quot;: &quot;46bea5c0-c18e-4e78-a20c-06974bae60f7&quot;
                 }
               ]
             }
@@ -518,7 +518,7 @@
 </code></pre>
 
 <h2 id="selfcare-general-cds">/selfcare-general-cds</h2>
-<p>The so-called general CDS is the traditional way of using EBMeDS, where as much patient data as possible is sent to the service, and a wide range of reminders and suggested actions are returned.</p>
+<p>The so-called general CDS is the traditional way of using EBMEDS, where as much patient data as possible is sent to the service, and a wide range of reminders and suggested actions are returned.</p>
 <h3 id="service-description_1">Service description</h3>
 <pre><code class="json">{
   &quot;id&quot;: &quot;selfcare-general-cds&quot;,
@@ -549,7 +549,7 @@
   &quot;description&quot;: &quot;This hook takes a MonitoringGoal resource and a bundle of associated MeasurementObservations and returns textual feedback on the user's progress.&quot;,
   &quot;context&quot;: {
     &quot;goals&quot;: &quot;Goal?patient={{Patient.id}}&quot;,
-    &quot;measurements&quot;: &quot;Observation?patient={{Patient.id}}&quot;,
+    &quot;measurements&quot;: &quot;Observation?patient={{Patient.id}}&quot;
   }
 }
 </code></pre></div>
