@@ -84,22 +84,6 @@
     
 
     
-        
-    <url>
-     <loc>/api/xml/getting-started/</loc>
-     <lastmod>2018-11-05</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    <url>
-     <loc>/api/xml/xml-schema/</loc>
-     <lastmod>2018-11-05</lastmod>
-     <changefreq>daily</changefreq>
-    </url>
-        
-    
-
-    
     <url>
      <loc>/security/</loc>
      <lastmod>2018-11-05</lastmod>
