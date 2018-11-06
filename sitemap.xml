@@ -4,7 +4,7 @@
     
     <url>
      <loc>/</loc>
-     <lastmod>2018-11-05</lastmod>
+     <lastmod>2018-11-06</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
@@ -13,19 +13,19 @@
         
     <url>
      <loc>/system-requirements/</loc>
-     <lastmod>2018-11-05</lastmod>
+     <lastmod>2018-11-06</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/components/</loc>
-     <lastmod>2018-11-05</lastmod>
+     <lastmod>2018-11-06</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/installation/</loc>
-     <lastmod>2018-11-05</lastmod>
+     <lastmod>2018-11-06</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
@@ -35,49 +35,49 @@
         
     <url>
      <loc>/api/fhir/getting-started/</loc>
-     <lastmod>2018-11-05</lastmod>
+     <lastmod>2018-11-06</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/fhir/cds-hooks/</loc>
-     <lastmod>2018-11-05</lastmod>
+     <lastmod>2018-11-06</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/fhir/hook-catalog/</loc>
-     <lastmod>2018-11-05</lastmod>
+     <lastmod>2018-11-06</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/fhir/custom-rest/</loc>
-     <lastmod>2018-11-05</lastmod>
+     <lastmod>2018-11-06</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/fhir/resources/</loc>
-     <lastmod>2018-11-05</lastmod>
+     <lastmod>2018-11-06</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/fhir/code-systems/</loc>
-     <lastmod>2018-11-05</lastmod>
+     <lastmod>2018-11-06</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/fhir/extensions/</loc>
-     <lastmod>2018-11-05</lastmod>
+     <lastmod>2018-11-06</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
     <url>
      <loc>/api/fhir/oda/</loc>
-     <lastmod>2018-11-05</lastmod>
+     <lastmod>2018-11-06</lastmod>
      <changefreq>daily</changefreq>
     </url>
         
@@ -86,7 +86,7 @@
     
     <url>
      <loc>/security/</loc>
-     <lastmod>2018-11-05</lastmod>
+     <lastmod>2018-11-06</lastmod>
      <changefreq>daily</changefreq>
     </url>
     
