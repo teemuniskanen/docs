@@ -1,0 +1,27 @@
+version: 2
+jobs:
+  build-and-deploy:
+    working_directory: ~/workdir
+    docker:
+      - image: circleci/python
+    steps:
+      - checkout
+      - run:
+          name: update-pip
+          command: pip install --upgrade pip
+      - run:
+          name: install-mkdocs
+          command: 'pip install mkdocs'
+      - run:
+          name: github-deploy 
+          command: mkdocs gh-deploy
+workflows:
+  version: 2
+  build_test_deploy:
+    jobs:
+      - build-and-deploy:
+          filters:
+            tags:
+              only: /^v.*/
+
+
