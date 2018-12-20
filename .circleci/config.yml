@@ -23,8 +23,11 @@ workflows:
   build_test_deploy:
     jobs:
       - build-and-deploy:
+          context: writable-github
           filters:
             tags:
               only: /^v.*/
+            branches:
+              ignore: /.*/
 
 
